@@ -227,3 +227,21 @@ const Contatti = () => {
             <FormGroup>
               <Label htmlFor="message">Messaggio</Label>
               <TextArea id="message" placeholder="Scrivi il tuo messaggio..." />
+            </FormGroup>
+
+            <FormGroup>
+              <Button type="submit">Invia</Button>
+            </FormGroup>
+          </ContactForm>
+        </ContactGrid>
+
+        <MapSection>
+          <MapTitle>Dove Siamo</MapTitle>
+          <MapPlaceholder>Mappa verrà caricata qui</MapPlaceholder>
+        </MapSection>
+      </PageContainer>
+    </Layout>
+  );
+};
+
+export default Contatti;
