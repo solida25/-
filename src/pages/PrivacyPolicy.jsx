@@ -123,7 +123,7 @@ const PrivacyPolicy = () => {
           <PolicyText>
             La presente Privacy Policy ha lo scopo di descrivere le modalità di
             gestione del sito web
-            <strong> solida-energia.it</strong> in riferimento al trattamento
+            <strong> solida-energia.com</strong> in riferimento al trattamento
             dei dati personali degli utenti che lo consultano. Si tratta di
             un'informativa che è resa ai sensi dell'art. 13 del Regolamento UE
             2016/679 (GDPR) a coloro che interagiscono con i servizi web di
@@ -133,8 +133,9 @@ const PrivacyPolicy = () => {
           <SectionTitle>1. Titolare del Trattamento</SectionTitle>
           <PolicyText>
             Il Titolare del trattamento dei dati personali è{" "}
-            <strong>Solida-Energia S.p.A.</strong> con sede legale in Via
-            dell'Energia, 123 - 00100 Roma, Email: privacy@solida-energia.it.
+            <strong>Futura Energia s.r.l</strong> con sede legale in Via Foro
+            Buona parte, 59 - 20121 Milano, Email:
+            amministrazione@infofuturaenergia.com.
           </PolicyText>
 
           <SectionTitle>2. Tipologie di Dati Raccolti</SectionTitle>
@@ -281,7 +282,7 @@ const PrivacyPolicy = () => {
             consultare regolarmente questa pagina.
           </PolicyText>
 
-          <LastUpdate>Ultimo aggiornamento: 4 Aprile 2025</LastUpdate>
+          <LastUpdate>Ultimo aggiornamento: 8 Aprile 2025</LastUpdate>
         </ScrollAnimation>
       </PageContainer>
     </Layout>

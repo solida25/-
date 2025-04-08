@@ -6,7 +6,6 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
   FaFacebook,
-  FaTwitter,
   FaInstagram,
   FaLinkedin,
   FaArrowUp,
@@ -344,7 +343,7 @@ const Footer = () => {
     <FooterContainer>
       <FooterContent>
         <FooterSection>
-          <FooterTitle>Solida-Energia</FooterTitle>
+          <FooterTitle>Futura Energia srl</FooterTitle>
           <FooterText>
             La tua fonte di energia affidabile e sostenibile per casa e azienda.
             Offriamo soluzioni energetiche innovative con un occhio di riguardo
@@ -354,16 +353,25 @@ const Footer = () => {
             <FaLeaf /> Energia 100% Verde
           </SustainabilityBadge>
           <SocialLinks>
-            <SocialIcon href="#" target="_blank" rel="noopener noreferrer">
+            <SocialIcon
+              href="https://www.facebook.com/profile.php?id=61574769068450"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebook />
             </SocialIcon>
-            <SocialIcon href="#" target="_blank" rel="noopener noreferrer">
-              <FaTwitter />
-            </SocialIcon>
-            <SocialIcon href="#" target="_blank" rel="noopener noreferrer">
+            <SocialIcon
+              href="https://www.instagram.com/solidaenergia2025/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram />
             </SocialIcon>
-            <SocialIcon href="#" target="_blank" rel="noopener noreferrer">
+            <SocialIcon
+              href="https://www.linkedin.com/company/solida-energia/?viewAsMember=true"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaLinkedin />
             </SocialIcon>
           </SocialLinks>
@@ -390,7 +398,7 @@ const Footer = () => {
             </ContactIcon>
             <ContactInfo>
               <ContactLabel>Telefono</ContactLabel>
-              <ContactValue>800 123 456</ContactValue>
+              <ContactValue>090350 5923</ContactValue>
             </ContactInfo>
           </ContactItem>
           <ContactItem>
@@ -399,7 +407,7 @@ const Footer = () => {
             </ContactIcon>
             <ContactInfo>
               <ContactLabel>Email</ContactLabel>
-              <ContactValue>info@solida-energia.it</ContactValue>
+              <ContactValue>solida@solidaenergia.com</ContactValue>
             </ContactInfo>
           </ContactItem>
           <ContactItem>
@@ -408,7 +416,7 @@ const Footer = () => {
             </ContactIcon>
             <ContactInfo>
               <ContactLabel>Indirizzo</ContactLabel>
-              <ContactValue>Via dell'Energia, 123 - Roma</ContactValue>
+              <ContactValue>Via Foro Buonaparte 59 - 20121 Milano</ContactValue>
             </ContactInfo>
           </ContactItem>
           <Newsletter>
@@ -422,7 +430,7 @@ const Footer = () => {
       </FooterContent>
       <BottomBar>
         <CopyrightText>
-          &copy; {new Date().getFullYear()} Solida-Energia. Tutti i diritti
+          &copy; {new Date().getFullYear()} Futura Energia srl. Tutti i diritti
           riservati.
         </CopyrightText>
         <LegalLinks>

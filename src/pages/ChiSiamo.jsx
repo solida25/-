@@ -73,6 +73,7 @@ const HeroDescription = styled.p`
   }
 `;
 
+/* Story Section */
 const StorySection = styled.section`
   padding: 5rem 0;
   background-color: white;
@@ -115,6 +116,7 @@ const StoryContent = styled.div`
   padding: 1rem;
 `;
 
+/* Values Section */
 const ValuesSection = styled.section`
   padding: 5rem 0;
   background-color: ${({ theme }) => theme.backgroundLight};
@@ -179,21 +181,48 @@ const ValueIcon = styled.div`
   }
 `;
 
+/* Team Section */
 const TeamSection = styled.section`
   padding: 5rem 0;
   background-color: white;
+  text-align: center;
 `;
 
-const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2.5rem;
+const TeamImage = styled.div`
+  position: relative;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.large};
+  margin: 0 auto 2rem;
+  max-width: 800px;
+
+  &::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
+const TeamText = styled.p`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.textLight};
+  max-width: 800px;
+  margin: 0 auto;
+`;
+
+/* Mission Quote Section */
 const MissionSection = styled.section`
   padding: 6rem 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       135deg,
       ${({ theme }) => theme.primary}CC,
       ${({ theme }) => theme.secondary}CC
@@ -234,6 +263,7 @@ const MissionAuthor = styled.p`
   font-weight: bold;
 `;
 
+/* Timeline Section */
 const TimelineSection = styled.section`
   padding: 5rem 0;
   background-color: ${({ theme }) => theme.backgroundLight};
@@ -340,6 +370,7 @@ const TimelineText = styled.p`
   color: ${({ theme }) => theme.textLight};
 `;
 
+/* CTA Section */
 const CTASection = styled.section`
   padding: 5rem 0;
   text-align: center;
@@ -367,19 +398,20 @@ const ChiSiamo = () => {
   return (
     <Layout
       title="Chi Siamo"
-      description="Scopri la storia, la mission e i valori di Solida-Energia, il tuo fornitore di energia affidabile e sostenibile."
+      description="Scopri la storia, la mission e i valori di Solida Energia, il fornitore di energia focalizzato esclusivamente sul settore residenziale e micro-business."
     >
       {/* Hero Section */}
       <ParallaxHero
-        backgroundImage="https://images.unsplash.com/photo-1508247967583-7d982ea01526?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
         height="60vh"
       >
         <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
           <HeroTitle>Chi Siamo</HeroTitle>
           <HeroDescription>
-            Solida-Energia è un fornitore di energia elettrica e gas con una
-            missione chiara: rendere l'energia accessibile, sostenibile e
-            conveniente per tutti.
+            Fondata nel 2025 dopo 10 anni di esperienza e analisi del mercato,
+            Solida Energia si dedica esclusivamente al settore residenziale e ai
+            micro-business, offrendo soluzioni energetiche innovative e
+            sostenibili.
           </HeroDescription>
         </ScrollAnimation>
       </ParallaxHero>
@@ -394,8 +426,8 @@ const ChiSiamo = () => {
             >
               <StoryImage>
                 <img
-                  src="https://images.unsplash.com/photo-1564676677001-92e8f1a0df24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                  alt="Storia di Solida-Energia"
+                  src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                  alt="Il nostro percorso"
                 />
               </StoryImage>
             </ScrollAnimation>
@@ -408,25 +440,23 @@ const ChiSiamo = () => {
               <StoryContent>
                 <SectionTitle>La Nostra Storia</SectionTitle>
                 <SectionSubtitle>
-                  Un percorso di innovazione e sostenibilità dal 2010
+                  Dal 2015 al lancio ufficiale nel 2025, un decennio di
+                  progettazione e realizzazione.
                 </SectionSubtitle>
                 <p style={{ marginBottom: "1.5rem", lineHeight: "1.8" }}>
-                  Fondata nel 2010 da un gruppo di esperti del settore
-                  energetico, Solida-Energia è nata con l'obiettivo di offrire
-                  un'alternativa ai tradizionali fornitori di energia, puntando
-                  su trasparenza, sostenibilità e innovazione.
+                  Nel 2015 è iniziato il nostro impegno: un’approfondita analisi
+                  di mercato ha guidato la progettazione di soluzioni mirate
+                  esclusivamente al settore residenziale e ai micro-business.
                 </p>
                 <p style={{ marginBottom: "1.5rem", lineHeight: "1.8" }}>
-                  Negli anni abbiamo continuato a crescere, espandendo la nostra
-                  offerta di servizi e rafforzando il nostro impegno verso
-                  l'utilizzo di fonti rinnovabili. Oggi serviamo migliaia di
-                  clienti in tutta Italia.
+                  Nel 2020 abbiamo validato le nostre idee con prototipi e test
+                  in ambienti reali, perfezionando il nostro approccio e
+                  garantendo la sostenibilità delle soluzioni.
                 </p>
                 <p style={{ lineHeight: "1.8" }}>
-                  La nostra vision è diventare il fornitore di energia preferito
-                  in Italia, riconosciuto per la qualità del servizio, la
-                  trasparenza e l'impegno verso un futuro energetico
-                  sostenibile.
+                  Nel 2025, dopo 10 anni di esperienza, nasce ufficialmente
+                  Solida Energia, pronta a rivoluzionare il mercato con
+                  soluzioni su misura.
                 </p>
               </StoryContent>
             </ScrollAnimation>
@@ -442,7 +472,7 @@ const ChiSiamo = () => {
               <div style={{ textAlign: "center", marginBottom: "3rem" }}>
                 <SectionTitle>I Nostri Valori</SectionTitle>
                 <SectionSubtitle style={{ margin: "2rem auto" }}>
-                  Principi che guidano ogni nostra azione e decisione
+                  I principi che guidano ogni nostra decisione
                 </SectionSubtitle>
               </div>
             </ScrollAnimation>
@@ -460,8 +490,8 @@ const ChiSiamo = () => {
                     Affidabilità
                   </h3>
                   <p style={{ color: "#666" }}>
-                    Manteniamo le nostre promesse e lavoriamo per guadagnare
-                    ogni giorno la fiducia dei nostri clienti.
+                    Siamo impegnati a mantenere le nostre promesse, costruendo
+                    la fiducia attraverso risultati concreti.
                   </p>
                 </ValueCard>
               </ScrollAnimation>
@@ -478,8 +508,8 @@ const ChiSiamo = () => {
                     Sostenibilità
                   </h3>
                   <p style={{ color: "#666" }}>
-                    Ci impegniamo a promuovere un consumo responsabile e a
-                    investire in fonti di energia rinnovabile.
+                    Investiamo in soluzioni verdi e responsabili per un futuro
+                    più pulito.
                   </p>
                 </ValueCard>
               </ScrollAnimation>
@@ -493,11 +523,11 @@ const ChiSiamo = () => {
                     <FaUsers />
                   </ValueIcon>
                   <h3 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>
-                    Orientamento al Cliente
+                    Focus sul Cliente
                   </h3>
                   <p style={{ color: "#666" }}>
-                    Mettiamo i clienti al centro di tutto ciò che facciamo,
-                    offrendo soluzioni personalizzate e assistenza dedicata.
+                    Offriamo soluzioni personalizzate e un'assistenza dedicata
+                    per ogni esigenza.
                   </p>
                 </ValueCard>
               </ScrollAnimation>
@@ -514,8 +544,8 @@ const ChiSiamo = () => {
                     Innovazione
                   </h3>
                   <p style={{ color: "#666" }}>
-                    Investiamo costantemente in tecnologie e processi innovativi
-                    per migliorare i nostri servizi.
+                    Innoviamo costantemente per migliorare i nostri servizi e
+                    anticipare le esigenze del mercato.
                   </p>
                 </ValueCard>
               </ScrollAnimation>
@@ -532,11 +562,12 @@ const ChiSiamo = () => {
               <FaQuoteLeft />
             </QuoteIcon>
             <MissionText>
-              "Il nostro obiettivo è fornire energia pulita a prezzi
-              competitivi, contribuendo a costruire un futuro più sostenibile
-              per le prossime generazioni."
+              "Il nostro obiettivo è trasformare il settore energetico
+              attraverso innovazione e sostenibilità, concentrandoci
+              esclusivamente su soluzioni per il residenziale e il
+              micro-business."
             </MissionText>
-            <MissionAuthor>Marco Rossi, CEO & Fondatore</MissionAuthor>
+            <MissionAuthor>Il Team di Solida energia </MissionAuthor>
           </ScrollAnimation>
         </MissionContent>
       </MissionSection>
@@ -545,78 +576,33 @@ const ChiSiamo = () => {
       <TeamSection>
         <PageContainer>
           <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
-            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <SectionTitle>Il Nostro Team</SectionTitle>
-              <SectionSubtitle style={{ margin: "2rem auto" }}>
-                Professionisti dedicati alla tua soddisfazione
-              </SectionSubtitle>
-            </div>
+            <SectionTitle>Il Nostro Team</SectionTitle>
+            <SectionSubtitle>
+              Il nostro gruppo di professionisti opera in modo discreto e
+              congiunto per garantire risultati eccellenti.
+            </SectionSubtitle>
           </ScrollAnimation>
-
-          <TeamGrid>
-            <ScrollAnimation
-              animationType={ScrollAnimation.types.SLIDE_UP}
-              delay="0.1s"
-            >
-              <Card
-                image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                imageHeight="300px"
-                title="Marco Rossi"
-                titleSize="medium"
-                subtitle="CEO & Fondatore"
-                elevation="medium"
-                hoverEffect="lift"
-                padding="1.5rem"
-              >
-                <p style={{ color: "#666", marginBottom: "1rem" }}>
-                  Con oltre 20 anni di esperienza nel settore energetico, Marco
-                  guida l'azienda con visione e determinazione.
-                </p>
-              </Card>
-            </ScrollAnimation>
-
-            <ScrollAnimation
-              animationType={ScrollAnimation.types.SLIDE_UP}
-              delay="0.2s"
-            >
-              <Card
-                image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                imageHeight="300px"
-                title="Laura Bianchi"
-                titleSize="medium"
-                subtitle="Direttrice Operativa"
-                elevation="medium"
-                hoverEffect="lift"
-                padding="1.5rem"
-              >
-                <p style={{ color: "#666", marginBottom: "1rem" }}>
-                  Laura coordina le operazioni quotidiane assicurando efficienza
-                  e qualità in tutti i nostri servizi.
-                </p>
-              </Card>
-            </ScrollAnimation>
-
-            <ScrollAnimation
-              animationType={ScrollAnimation.types.SLIDE_UP}
-              delay="0.3s"
-            >
-              <Card
-                image="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                imageHeight="300px"
-                title="Francesco Verdi"
-                titleSize="medium"
-                subtitle="Responsabile Sostenibilità"
-                elevation="medium"
-                hoverEffect="lift"
-                padding="1.5rem"
-              >
-                <p style={{ color: "#666", marginBottom: "1rem" }}>
-                  Francesco guida le nostre iniziative ambientali e il nostro
-                  impegno verso un futuro energetico sostenibile.
-                </p>
-              </Card>
-            </ScrollAnimation>
-          </TeamGrid>
+          <ScrollAnimation
+            animationType={ScrollAnimation.types.SLIDE_UP}
+            delay="0.1s"
+          >
+            <TeamImage>
+              <img
+                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Il nostro team"
+              />
+            </TeamImage>
+          </ScrollAnimation>
+          <ScrollAnimation
+            animationType={ScrollAnimation.types.FADE_IN}
+            delay="0.2s"
+          >
+            <TeamText>
+              Pur mantenendo riservata l'identità dei nostri collaboratori, il
+              nostro impegno si riflette nei progetti innovativi e nella
+              continua ricerca dell'eccellenza.
+            </TeamText>
+          </ScrollAnimation>
         </PageContainer>
       </TeamSection>
 
@@ -627,7 +613,8 @@ const ChiSiamo = () => {
             <div style={{ textAlign: "center", marginBottom: "4rem" }}>
               <SectionTitle>La Nostra Storia</SectionTitle>
               <SectionSubtitle style={{ margin: "2rem auto" }}>
-                Un percorso di crescita e innovazione
+                Un percorso iniziato nel 2015, risultato di ricerca e
+                innovazione
               </SectionSubtitle>
             </div>
           </ScrollAnimation>
@@ -639,12 +626,14 @@ const ChiSiamo = () => {
             >
               <TimelineItem position="left">
                 <TimelineContent position="left">
-                  <TimelineYear>2010</TimelineYear>
-                  <TimelineTitle>Fondazione di Solida-Energia</TimelineTitle>
+                  <TimelineYear>2015</TimelineYear>
+                  <TimelineTitle>
+                    Inizio della Ricerca e Progettazione
+                  </TimelineTitle>
                   <TimelineText>
-                    Solida-Energia nasce dalla visione di un gruppo di esperti
-                    del settore energetico con l'obiettivo di offrire
-                    un'alternativa sostenibile.
+                    Da qui parte il nostro percorso: un'analisi approfondita del
+                    mercato riservata al settore residenziale e ai
+                    micro-business.
                   </TimelineText>
                 </TimelineContent>
               </TimelineItem>
@@ -656,11 +645,12 @@ const ChiSiamo = () => {
             >
               <TimelineItem position="right">
                 <TimelineContent position="right">
-                  <TimelineYear>2013</TimelineYear>
-                  <TimelineTitle>Espansione nazionale</TimelineTitle>
+                  <TimelineYear>2020</TimelineYear>
+                  <TimelineTitle>Prototipazione e Validazione</TimelineTitle>
                   <TimelineText>
-                    Dopo i primi anni di successo locale, iniziamo l'espansione
-                    in tutta Italia raggiungendo migliaia di nuovi clienti.
+                    Testiamo le nostre soluzioni in ambienti reali,
+                    perfezionando il nostro approccio per garantire
+                    sostenibilità ed efficienza.
                   </TimelineText>
                 </TimelineContent>
               </TimelineItem>
@@ -672,46 +662,12 @@ const ChiSiamo = () => {
             >
               <TimelineItem position="left">
                 <TimelineContent position="left">
-                  <TimelineYear>2016</TimelineYear>
-                  <TimelineTitle>Certificazione 100% Verde</TimelineTitle>
+                  <TimelineYear>2025</TimelineYear>
+                  <TimelineTitle>Fondazione di Solida Energia</TimelineTitle>
                   <TimelineText>
-                    Otteniamo la certificazione ufficiale per l'energia 100% da
-                    fonti rinnovabili, consolidando il nostro impegno per
-                    l'ambiente.
-                  </TimelineText>
-                </TimelineContent>
-              </TimelineItem>
-            </ScrollAnimation>
-
-            <ScrollAnimation
-              animationType={ScrollAnimation.types.FADE_IN}
-              delay="0.4s"
-            >
-              <TimelineItem position="right">
-                <TimelineContent position="right">
-                  <TimelineYear>2020</TimelineYear>
-                  <TimelineTitle>Lancio soluzioni Smart Home</TimelineTitle>
-                  <TimelineText>
-                    Introduciamo una nuova gamma di soluzioni per la casa
-                    intelligente, integrando energia e tecnologia per un consumo
-                    più efficiente.
-                  </TimelineText>
-                </TimelineContent>
-              </TimelineItem>
-            </ScrollAnimation>
-
-            <ScrollAnimation
-              animationType={ScrollAnimation.types.FADE_IN}
-              delay="0.5s"
-            >
-              <TimelineItem position="left">
-                <TimelineContent position="left">
-                  <TimelineYear>2023</TimelineYear>
-                  <TimelineTitle>Ampliamento gamma servizi</TimelineTitle>
-                  <TimelineText>
-                    Lanciamo nuovi servizi orientati all'efficienza energetica e
-                    alla consulenza personalizzata per clienti residenziali e
-                    business.
+                    Dopo 10 anni di esperienza, l'azienda viene ufficialmente
+                    lanciata, focalizzandosi esclusivamente sui clienti
+                    residenziali e sui micro-business.
                   </TimelineText>
                 </TimelineContent>
               </TimelineItem>
@@ -727,8 +683,8 @@ const ChiSiamo = () => {
             <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
               <CTATitle>Vuoi saperne di più?</CTATitle>
               <CTAText>
-                Se vuoi conoscere meglio Solida-Energia o hai domande sulle
-                nostre offerte, il nostro team è a tua disposizione.
+                Se desideri ulteriori dettagli su Solida Energia o hai domande
+                sulle nostre soluzioni, il nostro team è a tua disposizione.
               </CTAText>
               <Button
                 to="/contatti"

@@ -376,10 +376,7 @@ const FAQAnswer = styled.div`
   max-height: ${({ $isOpen }) => ($isOpen ? "1000px" : "0")};
   opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
   overflow: hidden;
-  transition:
-    max-height 0.5s ease,
-    opacity 0.3s ease,
-    padding 0.3s ease;
+  transition: max-height 0.5s ease, opacity 0.3s ease, padding 0.3s ease;
   padding: ${({ $isOpen }) => ($isOpen ? "0 1.5rem 1.5rem" : "0 1.5rem")};
 `;
 
@@ -392,8 +389,7 @@ const FAQText = styled.p`
 /* CTA SECTION */
 const CTASection = styled.section`
   padding: 5rem 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       135deg,
       ${({ theme }) => theme.primary}DD,
       ${({ theme }) => theme.secondary}DD
@@ -511,7 +507,8 @@ const OfferteGas = () => {
                     </OfferIcon>
                     <OfferType>Gas Basic</OfferType>
                     <OfferPrice>
-                      0.28€ <OfferPriceCaption>/Smc</OfferPriceCaption>
+                      il migliore sul mercato{" "}
+                      <OfferPriceCaption>/Smc</OfferPriceCaption>
                     </OfferPrice>
                   </OfferHeader>
                   <OfferContent>
@@ -522,7 +519,7 @@ const OfferteGas = () => {
                       <OfferFeature>Attivazione gratuita</OfferFeature>
                     </OfferFeatures>
                     <Button fullWidth icon={<FaArrowRight />}>
-                      Attiva ora
+                      fra poco..
                     </Button>
                   </OfferContent>
                 </OfferCard>
@@ -539,7 +536,8 @@ const OfferteGas = () => {
                     </OfferIcon>
                     <OfferType>Gas Smart</OfferType>
                     <OfferPrice>
-                      0.275€ <OfferPriceCaption>/Smc</OfferPriceCaption>
+                      il migliore sul mercato{" "}
+                      <OfferPriceCaption>/Smc</OfferPriceCaption>
                     </OfferPrice>
                   </OfferHeader>
                   <OfferContent>
@@ -559,7 +557,7 @@ const OfferteGas = () => {
                       variant="secondary"
                       icon={<FaArrowRight />}
                     >
-                      Attiva ora
+                      fra poco..
                     </Button>
                   </OfferContent>
                 </OfferCard>
@@ -576,13 +574,14 @@ const OfferteGas = () => {
                     </OfferIcon>
                     <OfferType>Gas Premium</OfferType>
                     <OfferPrice>
-                      0.270€ <OfferPriceCaption>/Smc</OfferPriceCaption>
+                      il migliore sul mercato{" "}
+                      <OfferPriceCaption>/Smc</OfferPriceCaption>
                     </OfferPrice>
                   </OfferHeader>
                   <OfferContent>
                     <OfferFeatures>
                       <OfferFeature $isHighlighted>
-                        Prezzo bloccato per 36 mesi
+                        Prezzo bloccato per 12 mesi
                       </OfferFeature>
                       <OfferFeature>Compensazione CO2 inclusa</OfferFeature>
                       <OfferFeature>
@@ -596,7 +595,7 @@ const OfferteGas = () => {
                       </OfferFeature>
                     </OfferFeatures>
                     <Button fullWidth icon={<FaArrowRight />}>
-                      Attiva ora
+                      fra poco..
                     </Button>
                   </OfferContent>
                 </OfferCard>

@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
 import { useAuth } from "./contexts/AuthContext";
+import WorkInProgress from "./pages/WorkInProgress.jsx";
 
 // Componente ProtectedRoute per proteggere le rotte
 const ProtectedRoute = ({ children }) => {
@@ -55,14 +56,14 @@ const AppRoutes = () => {
         <Route path="/termini" element={<TerminiCondizioni />} />
 
         {/* Rotte area clienti */}
-        <Route path="/area-clienti" element={<AreaClienti />} />
+        <Route path="/area-clienti" element={<WorkInProgress />} />
 
         {/* Rotte protette per la dashboard */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <WorkInProgress />
             </ProtectedRoute>
           }
         />

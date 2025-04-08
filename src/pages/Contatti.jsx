@@ -14,9 +14,9 @@ import {
   FaCheckCircle,
   FaPaperPlane,
   FaFacebook,
-  FaTwitter,
   FaInstagram,
-  FaArrowRight, // Aggiunta l'importazione mancante
+  FaLinkedin,
+  FaArrowRight,
 } from "react-icons/fa";
 
 const PageContainer = styled.div`
@@ -179,10 +179,10 @@ const SocialLink = styled.a`
       switch ($network) {
         case "facebook":
           return "#3b5998";
-        case "twitter":
-          return "#1da1f2";
         case "instagram":
           return "#e1306c";
+        case "linkedin":
+          return "#0077b5";
         default:
           return theme.primary;
       }
@@ -341,8 +341,12 @@ const MapContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.textLight};
-  font-size: 1.2rem;
+`;
+
+const ItalyMap = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const FAQSection = styled.section`
@@ -415,7 +419,7 @@ const Contatti = () => {
   return (
     <Layout
       title="Contatti"
-      description="Contatta Solida-Energia per informazioni, assistenza o preventivi personalizzati."
+      description="Contatta Futura Energia srl per informazioni, assistenza o preventivi personalizzati."
     >
       {/* Hero Section */}
       <ParallaxHero
@@ -466,7 +470,7 @@ const Contatti = () => {
                   </ContactIcon>
                   <ContactInfo>
                     <ContactLabel>Telefono</ContactLabel>
-                    <ContactValue>800 123 456</ContactValue>
+                    <ContactValue>090350 5923</ContactValue>
                   </ContactInfo>
                 </ContactItem>
 
@@ -476,7 +480,7 @@ const Contatti = () => {
                   </ContactIcon>
                   <ContactInfo>
                     <ContactLabel>Email</ContactLabel>
-                    <ContactValue>info@solida-energia.it</ContactValue>
+                    <ContactValue>solida@solidaenergia.com</ContactValue>
                   </ContactInfo>
                 </ContactItem>
 
@@ -487,7 +491,7 @@ const Contatti = () => {
                   <ContactInfo>
                     <ContactLabel>Indirizzo</ContactLabel>
                     <ContactValue>
-                      Via dell'Energia, 123 - 00100 Roma
+                      Via Foro Buonaparte 59 - 20121 Milano
                     </ContactValue>
                   </ContactInfo>
                 </ContactItem>
@@ -516,7 +520,7 @@ const Contatti = () => {
 
                 <SocialLinks>
                   <SocialLink
-                    href="#"
+                    href="https://www.facebook.com/profile.php?id=61574769068450"
                     target="_blank"
                     rel="noopener noreferrer"
                     $network="facebook"
@@ -524,20 +528,20 @@ const Contatti = () => {
                     <FaFacebook />
                   </SocialLink>
                   <SocialLink
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    $network="twitter"
-                  >
-                    <FaTwitter />
-                  </SocialLink>
-                  <SocialLink
-                    href="#"
+                    href="https://www.instagram.com/solidaenergia2025/"
                     target="_blank"
                     rel="noopener noreferrer"
                     $network="instagram"
                   >
                     <FaInstagram />
+                  </SocialLink>
+                  <SocialLink
+                    href="https://www.linkedin.com/company/solida-energia/?viewAsMember=true"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    $network="linkedin"
+                  >
+                    <FaLinkedin />
                   </SocialLink>
                 </SocialLinks>
               </ContactInfoCard>
@@ -679,9 +683,10 @@ const Contatti = () => {
         <PageContainer>
           <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
             <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <SectionTitle>Dove Siamo</SectionTitle>
+              <SectionTitle>Siamo in Cloud</SectionTitle>
               <SectionSubtitle style={{ margin: "2rem auto" }}>
-                Vieni a trovarci nella nostra sede centrale
+                Anche se non abbiamo una sede fisica, i nostri dati coprono
+                l'intero territorio nazionale.
               </SectionSubtitle>
             </div>
           </ScrollAnimation>
@@ -691,11 +696,10 @@ const Contatti = () => {
             threshold={0.2}
           >
             <MapContainer>
-              {/* 
-                Qui normalmente andrebbe un componente di mappa come Google Maps o Leaflet.
-                Per semplicità, mostriamo solo un placeholder
-              */}
-              <div>Mappa di Google qui</div>
+              <ItalyMap
+                src="https://images.unsplash.com/photo-1742855751015-5bda25456249?q=80&w=3131&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="paesagio"
+              />
             </MapContainer>
           </ScrollAnimation>
         </PageContainer>

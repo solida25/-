@@ -95,11 +95,11 @@ const TerminiCondizioni = () => {
   return (
     <Layout
       title="Termini e Condizioni"
-      description="Termini e Condizioni di Solida-Energia: regole e accordi per l'utilizzo dei nostri servizi e del nostro sito web."
+      description="Termini e Condizioni di Futura Energia srl: regole e accordi per l'utilizzo dei nostri servizi e del nostro sito web."
     >
       <SEO
         title="Termini e Condizioni"
-        description="Termini e Condizioni di Solida-Energia: regole e accordi per l'utilizzo dei nostri servizi e del nostro sito web."
+        description="Termini e Condizioni di Futura Energia srl: regole e accordi per l'utilizzo dei nostri servizi e del nostro sito web."
         canonical="/termini"
         keywords={[
           ...SEO_CONSTANTS.DEFAULT_KEYWORDS,
@@ -129,12 +129,10 @@ const TerminiCondizioni = () => {
         <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
           <TermsText>
             I presenti Termini e Condizioni ("Termini") regolano l'utilizzo del
-            sito web
-            <strong> solida-energia.it</strong> ("Sito") e dei servizi offerti
-            da
-            <strong> Solida-Energia S.p.A.</strong> ("Società", "noi",
-            "nostro"). Utilizzando il Sito, l'utente accetta di essere vincolato
-            dai presenti Termini.
+            sito web <strong>solidaenergia.com</strong> ("Sito") e dei servizi
+            offerti da <strong>Futura Energia srl</strong> ("Società").
+            Utilizzando il Sito, l'utente accetta di essere vincolato dai
+            presenti Termini.
           </TermsText>
 
           <SectionTitle>1. Accettazione dei Termini</SectionTitle>
@@ -212,7 +210,7 @@ const TerminiCondizioni = () => {
           <SectionTitle>5. Prodotti e Servizi</SectionTitle>
           <TermsText>
             Le descrizioni dei prodotti e servizi energetici presentati sul
-            nostro Sito sono accurati per quanto possibile. Tuttavia, non
+            nostro Sito sono accurate per quanto possibile. Tuttavia, non
             garantiamo che tutte le descrizioni siano accurate, complete,
             affidabili, aggiornate o prive di errori.
           </TermsText>
@@ -272,14 +270,13 @@ const TerminiCondizioni = () => {
           <SectionTitle>9. Indennizzo</SectionTitle>
           <TermsText>
             L'utente accetta di difendere, indennizzare e tenere indenne la
-            Società e i suoi licenziatari, licenziatari, fornitori di servizi,
-            subcontraenti, distributori, agenti, rappresentanti e altri utenti
-            autorizzati, e ciascuno dei loro rispettivi funzionari, dirigenti,
-            proprietari, dipendenti, agenti, rappresentanti e successori da e
-            contro qualsiasi reclamo, responsabilità, danni, sentenze, premi,
-            perdite, costi, spese o commissioni (incluse ragionevoli spese
-            legali) derivanti da o in connessione con la violazione di questi
-            Termini.
+            Società e i suoi licenziatari, fornitori di servizi, subcontraenti,
+            distributori, agenti, rappresentanti e altri utenti autorizzati, e
+            ciascuno dei loro rispettivi funzionari, dirigenti, proprietari,
+            dipendenti, agenti, rappresentanti e successori da e contro
+            qualsiasi reclamo, responsabilità, danni, sentenze, premi, perdite,
+            costi, spese o commissioni (incluse ragionevoli spese legali)
+            derivanti da o in connessione con la violazione di questi Termini.
           </TermsText>
 
           <SectionTitle>10. Legge Applicabile e Foro Competente</SectionTitle>
@@ -316,18 +313,18 @@ const TerminiCondizioni = () => {
             Per qualsiasi domanda sui presenti Termini, contattare:
           </TermsText>
           <TermsText>
-            <strong>Solida-Energia S.p.A.</strong>
+            <strong>Futura Energia srl</strong>
             <br />
-            Via dell'Energia, 123
+            Via Foro Buonaparte 59
             <br />
-            00100 Roma
+            20121 Milano
             <br />
-            Email: info@solida-energia.it
+            Email: solida@solidaenergia.com
             <br />
-            Tel: 800 123 456
+            Tel: 090350 5923
           </TermsText>
 
-          <LastUpdate>Ultimo aggiornamento: 4 Aprile 2025</LastUpdate>
+          <LastUpdate>Ultimo aggiornamento: 8 Aprile 2025</LastUpdate>
         </ScrollAnimation>
       </PageContainer>
     </Layout>

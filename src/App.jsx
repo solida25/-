@@ -8,6 +8,7 @@ import CookieConsent from "./components/common/CookieConsent"; // Importiamo il 
 import AppRoutes from "./routes.jsx";
 import theme from "./styles/theme";
 import { AuthProvider } from "./contexts/AuthContext";
+import ScrollToTop from "./components/common/ScrollToTop.jsx";
 
 /* -----------------------------
  * Animazioni Keyframes Globali
@@ -150,6 +151,7 @@ function App() {
               {/* Componente per la gestione dei cookie */}
               <CookieConsent />
             </AuthProvider>
+            <ScrollToTop /> {/* Aggiungi questa riga */}
           </BrowserRouter>
         </ErrorBoundary>
       </ThemeProvider>

@@ -326,10 +326,7 @@ const FAQAnswer = styled.div`
   max-height: ${({ $isOpen }) => ($isOpen ? "1000px" : "0")};
   opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
   overflow: hidden;
-  transition:
-    max-height 0.5s ease,
-    opacity 0.3s ease,
-    padding 0.3s ease;
+  transition: max-height 0.5s ease, opacity 0.3s ease, padding 0.3s ease;
   padding: ${({ $isOpen }) => ($isOpen ? "0 1.5rem 1.5rem" : "0 1.5rem")};
 `;
 const FAQText = styled.p`
@@ -341,8 +338,7 @@ const FAQText = styled.p`
 /* CTA SECTION */
 const CTASection = styled.section`
   padding: 5rem 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       135deg,
       ${({ theme }) => theme.primary}DD,
       ${({ theme }) => theme.secondary}DD
@@ -457,7 +453,7 @@ const offerCardsData = [
     isPopular: false,
     icon: <FaLightbulb />,
     type: "Luce Basic",
-    price: "0.07€",
+    price: "in lavorazione",
     priceCaption: "/kWh",
     features: [
       "Prezzo bloccato per 12 mesi",
@@ -474,7 +470,7 @@ const offerCardsData = [
     isPopular: true,
     icon: <FaLightbulb />,
     type: "Luce Smart",
-    price: "0.069€",
+    price: "in lavorazione",
     priceCaption: "/kWh",
     features: [
       { text: "Prezzo bloccato per 24 mesi", highlighted: true },
@@ -492,7 +488,7 @@ const offerCardsData = [
     isPopular: false,
     icon: <FaBolt />,
     type: "Luce Premium",
-    price: "0.068€",
+    price: "in lavorazione",
     priceCaption: "/kWh",
     features: [
       { text: "Prezzo bloccato per 36 mesi", highlighted: true },

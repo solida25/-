@@ -420,8 +420,7 @@ const BusinessFeature = styled.li`
 
 const ConsultingSection = styled.section`
   padding: 5rem 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       135deg,
       ${({ theme }) => theme.primary}DD,
       ${({ theme }) => theme.secondary}DD
@@ -1184,7 +1183,7 @@ const OfferteBusiness = () => {
                         </ContactIcon>
                         <ContactText>
                           <ContactLabel>Telefono</ContactLabel>
-                          <ContactValue>800 456 789</ContactValue>
+                          <ContactValue>aspetta ancora un po..</ContactValue>
                         </ContactText>
                       </ContactItem>
 
@@ -1194,9 +1193,7 @@ const OfferteBusiness = () => {
                         </ContactIcon>
                         <ContactText>
                           <ContactLabel>Email</ContactLabel>
-                          <ContactValue>
-                            business@solida-energia.it
-                          </ContactValue>
+                          <ContactValue>solida@solidaenergia.com</ContactValue>
                         </ContactText>
                       </ContactItem>
 
@@ -1206,7 +1203,7 @@ const OfferteBusiness = () => {
                         </ContactIcon>
                         <ContactText>
                           <ContactLabel>Orari</ContactLabel>
-                          <ContactValue>Lun-Ven: 9:00-18:00</ContactValue>
+                          <ContactValue>Lun-Ven: 9:00-18:30</ContactValue>
                         </ContactText>
                       </ContactItem>
                     </ContactInfo>
