@@ -11,6 +11,7 @@ import {
   FaLinkedin,
   FaArrowUp,
   FaLeaf,
+  FaCookieBite,
 } from "react-icons/fa";
 
 const FooterContainer = styled.footer`
@@ -23,7 +24,6 @@ const FooterContainer = styled.footer`
   padding: 5rem 0 3rem;
   position: relative;
   overflow: hidden;
-
   &::before {
     content: "";
     position: absolute;
@@ -34,7 +34,6 @@ const FooterContainer = styled.footer`
     background: white;
     transform: skewY(-2deg);
   }
-
   &::after {
     content: "";
     position: absolute;
@@ -42,7 +41,7 @@ const FooterContainer = styled.footer`
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.05)" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,213.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>')
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='rgba(255,255,255,0.05)' d='M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,213.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/></svg>")
       no-repeat bottom;
     background-size: cover;
     opacity: 0.1;
@@ -72,7 +71,6 @@ const FooterTitle = styled.h3`
   position: relative;
   display: inline-block;
   padding-bottom: 10px;
-
   &::after {
     content: "";
     position: absolute;
@@ -92,12 +90,10 @@ const FooterLink = styled(Link)`
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
-
   &:hover {
     color: #ffffff;
     transform: translateX(5px);
   }
-
   &::before {
     content: "→";
     margin-right: 8px;
@@ -105,7 +101,6 @@ const FooterLink = styled(Link)`
     transform: translateX(-5px);
     transition: all 0.3s ease;
   }
-
   &:hover::before {
     opacity: 1;
     transform: translateX(0);
@@ -164,7 +159,6 @@ const SocialIcon = styled.a`
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
-
   &:hover {
     background-color: #ffffff;
     color: ${({ theme }) => theme.primary};
@@ -186,7 +180,6 @@ const BottomBar = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
@@ -195,6 +188,31 @@ const BottomBar = styled.div`
 
 const CopyrightText = styled.p`
   margin: 0;
+`;
+
+const LegalLinks = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+`;
+
+const LegalLink = styled(Link)`
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 5px;
+  }
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
 `;
 
 const ScrollToTop = styled.button`
@@ -213,17 +231,14 @@ const ScrollToTop = styled.button`
   right: 2rem;
   transform: translateY(-50%);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
   &:hover {
     transform: translateY(-60%);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
-
   @media (max-width: 768px) {
     position: static;
     margin: 1rem auto;
     transform: none;
-
     &:hover {
       transform: translateY(-5px);
     }
@@ -237,7 +252,6 @@ const SustainabilityBadge = styled.div`
   padding: 5px 12px;
   border-radius: 20px;
   margin-top: 1rem;
-
   svg {
     margin-right: 8px;
     color: #4caf50;
@@ -251,7 +265,6 @@ const Newsletter = styled.div`
 const NewsletterForm = styled.form`
   display: flex;
   margin-top: 1rem;
-
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -263,12 +276,10 @@ const NewsletterInput = styled.input`
   border: none;
   border-radius: 4px 0 0 4px;
   background-color: rgba(255, 255, 255, 0.9);
-
   @media (max-width: 768px) {
     border-radius: 4px;
     margin-bottom: 0.5rem;
   }
-
   &:focus {
     outline: none;
   }
@@ -283,15 +294,30 @@ const NewsletterButton = styled.button`
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   transition: all 0.3s ease;
-
   @media (max-width: 768px) {
     padding: 0.8rem;
     border-radius: 4px;
   }
-
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
     color: white;
+  }
+`;
+
+const CookiePreferencesButton = styled.button`
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 5px;
+  }
+  &:hover {
+    color: white;
+    text-decoration: underline;
   }
 `;
 
@@ -301,6 +327,17 @@ const Footer = () => {
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  // Funzione per aprire le preferenze cookie
+  const openCookiePreferences = () => {
+    if (window.openCookiePreferences) {
+      window.openCookiePreferences();
+    } else {
+      document.cookie =
+        "solida-energia-cookie-consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.reload();
+    }
   };
 
   return (
@@ -331,7 +368,6 @@ const Footer = () => {
             </SocialIcon>
           </SocialLinks>
         </FooterSection>
-
         <FooterSection>
           <FooterTitle>Link Utili</FooterTitle>
           <FooterLink to="/offerte-luce">Offerte Luce</FooterLink>
@@ -340,16 +376,12 @@ const Footer = () => {
           <FooterLink to="/chi-siamo">Chi Siamo</FooterLink>
           <FooterLink to="/blog">Blog & News</FooterLink>
         </FooterSection>
-
         <FooterSection>
           <FooterTitle>Supporto</FooterTitle>
           <FooterLink to="/contatti">Contatti</FooterLink>
           <FooterLink to="/faq">FAQ</FooterLink>
           <FooterLink to="/area-clienti">Area Clienti</FooterLink>
-          <FooterLink to="/privacy">Privacy Policy</FooterLink>
-          <FooterLink to="/termini">Termini e Condizioni</FooterLink>
         </FooterSection>
-
         <FooterSection>
           <FooterTitle>Contatti</FooterTitle>
           <ContactItem>
@@ -388,12 +420,18 @@ const Footer = () => {
           </Newsletter>
         </FooterSection>
       </FooterContent>
-
       <BottomBar>
         <CopyrightText>
           &copy; {new Date().getFullYear()} Solida-Energia. Tutti i diritti
           riservati.
         </CopyrightText>
+        <LegalLinks>
+          <LegalLink to="/privacy">Privacy Policy</LegalLink>
+          <LegalLink to="/termini">Termini e Condizioni</LegalLink>
+          <CookiePreferencesButton onClick={openCookiePreferences}>
+            <FaCookieBite /> Impostazioni Cookie
+          </CookiePreferencesButton>
+        </LegalLinks>
         <ScrollToTop onClick={scrollToTop}>
           <FaArrowUp />
         </ScrollToTop>

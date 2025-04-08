@@ -15,30 +15,16 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Controlla se l'utente è già autenticato all'avvio
+  // Verifica se l'utente è già autenticato all'avvio
   useEffect(() => {
     const checkAuthStatus = async () => {
       setLoading(true);
       try {
         const userData = localStorage.getItem("user_data");
         const token = localStorage.getItem("auth_token");
-
         if (userData && token) {
-          // Verifica validità token
-          const isValid = await authService.verifyToken();
-
-          if (isValid) {
-            setUser(JSON.parse(userData));
-          } else {
-            // Tenta refresh token
-            const refreshed = await authService.refreshToken();
-            if (refreshed) {
-              setUser(JSON.parse(localStorage.getItem("user_data")));
-            } else {
-              // Logout se refresh fallisce
-              await logout();
-            }
-          }
+          // In questa versione semplificata, consideriamo sempre valido il token
+          setUser(JSON.parse(userData));
         }
       } catch (err) {
         console.error("Error checking auth status:", err);
@@ -55,10 +41,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     setError(null);
-
     try {
       const result = await authService.login({ email, password });
-
       if (result.success) {
         setUser(result.user);
         return { success: true };
@@ -75,28 +59,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Altre funzioni: register, logout, resetPassword, ecc.
-  const logout = async () => {
-    try {
-      await authService.logout();
-    } catch (err) {
-      console.error("Error during logout:", err);
-    } finally {
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("user_data");
-      localStorage.removeItem("refresh_token");
-      setUser(null);
-      navigate("/area-clienti");
-    }
-  };
-
+  // Funzione di registrazione
   const register = async (userData) => {
     setLoading(true);
     setError(null);
-
     try {
       const result = await authService.register(userData);
-
       if (result.success) {
         return { success: true, message: result.message };
       } else {
@@ -109,6 +77,18 @@ export const AuthProvider = ({ children }) => {
       return { success: false, error: errorMsg };
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Funzione di logout
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (err) {
+      console.error("Error during logout:", err);
+    } finally {
+      setUser(null);
+      navigate("/area-clienti");
     }
   };
 

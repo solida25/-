@@ -1,5 +1,3 @@
-// src/pages/AreaClienti.jsx
-
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +8,8 @@ import Button from "../components/common/Button.jsx";
 import Card from "../components/common/Card.jsx";
 import SEO from "../components/seo/SEO";
 import ErrorBoundary from "../components/error/ErrorBoundary";
+import { useAuth } from "../contexts/AuthContext"; // Aggiunto import del contesto di autenticazione
+
 import { SEO_CONSTANTS } from "../utils/seoConstants";
 import {
   FaUser,
@@ -34,12 +34,10 @@ const pulse = keyframes`
   70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
   100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
 `;
-
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
-
 const slideIn = keyframes`
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -51,7 +49,6 @@ const PageContainer = styled.div`
   margin: 0 auto;
   padding: 0 2rem;
 `;
-
 const HeroTitle = styled.h1`
   font-size: 3.5rem;
   margin-bottom: 1rem;
@@ -61,7 +58,6 @@ const HeroTitle = styled.h1`
     font-size: 2.5rem;
   }
 `;
-
 const HeroDescription = styled.p`
   font-size: 1.3rem;
   max-width: 800px;
@@ -72,7 +68,6 @@ const HeroDescription = styled.p`
     font-size: 1.1rem;
   }
 `;
-
 const SectionTitle = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 1rem;
@@ -94,7 +89,6 @@ const SectionTitle = styled.h2`
     border-radius: 2px;
   }
 `;
-
 const SectionSubtitle = styled.p`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.textLight};
@@ -120,7 +114,6 @@ const LoginSection = styled.section`
     z-index: -1;
   }
 `;
-
 const ContactGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -129,12 +122,10 @@ const ContactGrid = styled.div`
     grid-template-columns: 1fr;
   }
 `;
-
 const LoginContainer = styled.div`
   flex: 1;
   animation: ${fadeIn} 0.5s ease-out;
 `;
-
 const LoginCard = styled(Card)`
   height: 100%;
   position: relative;
@@ -161,34 +152,28 @@ const LoginCard = styled(Card)`
     }
   }
 `;
-
 const FormTitle = styled.h3`
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: ${({ theme }) => theme.text};
 `;
-
 const FormDescription = styled.p`
   color: ${({ theme }) => theme.textLight};
   margin-bottom: 2rem;
 `;
-
 const FormGroup = styled.div`
   margin-bottom: 1.5rem;
   position: relative;
 `;
-
 const FormLabel = styled.label`
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
 `;
-
 const InputContainer = styled.div`
   position: relative;
 `;
-
 const FormInput = styled.input`
   width: 100%;
   padding: 0.8rem 1rem;
@@ -202,7 +187,6 @@ const FormInput = styled.input`
     box-shadow: 0 0 0 3px ${({ theme }) => theme.primary}30;
   }
 `;
-
 const InputIcon = styled.div`
   position: absolute;
   left: 10px;
@@ -210,7 +194,6 @@ const InputIcon = styled.div`
   transform: translateY(-50%);
   color: ${({ theme }) => theme.textLight};
 `;
-
 const PasswordIcon = styled.div`
   position: absolute;
   right: 10px;
@@ -222,11 +205,9 @@ const PasswordIcon = styled.div`
     color: ${({ theme }) => theme.primary};
   }
 `;
-
 const FormActions = styled.div`
   margin-top: 2rem;
 `;
-
 const ForgotPassword = styled.p`
   text-align: center;
   margin-top: 1.5rem;
@@ -241,7 +222,6 @@ const ForgotPassword = styled.p`
     }
   }
 `;
-
 const OrDivider = styled.div`
   display: flex;
   align-items: center;
@@ -259,7 +239,6 @@ const OrDivider = styled.div`
     font-size: 0.9rem;
   }
 `;
-
 const SocialButtons = styled.div`
   display: flex;
   gap: 1rem;
@@ -268,7 +247,6 @@ const SocialButtons = styled.div`
     flex-direction: column;
   }
 `;
-
 const ToggleView = styled.p`
   text-align: center;
   margin-top: 1.5rem;
@@ -294,7 +272,6 @@ const FeaturesSection = styled.section`
     display: ${({ isRegister }) => (isRegister ? "none" : "block")};
   }
 `;
-
 const FeaturesCard = styled(Card)`
   height: 100%;
   background: linear-gradient(
@@ -304,19 +281,16 @@ const FeaturesCard = styled(Card)`
   );
   color: white;
 `;
-
 const FeaturesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 `;
-
 const FeatureItem = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 1rem;
 `;
-
 const FeatureIcon = styled.div`
   width: 40px;
   height: 40px;
@@ -328,16 +302,13 @@ const FeatureIcon = styled.div`
   font-size: 1.2rem;
   flex-shrink: 0;
 `;
-
 const FeatureContent = styled.div`
   flex: 1;
 `;
-
 const FeatureTitle = styled.h4`
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
 `;
-
 const FeatureDescription = styled.p`
   opacity: 0.8;
   font-size: 0.95rem;
@@ -368,7 +339,6 @@ const SecureSection = styled.section`
     z-index: 1;
   }
 `;
-
 const SecureContent = styled.div`
   position: relative;
   z-index: 2;
@@ -376,7 +346,6 @@ const SecureContent = styled.div`
   max-width: 800px;
   margin: 0 auto;
 `;
-
 const SecurityIcon = styled.div`
   width: 80px;
   height: 80px;
@@ -393,20 +362,17 @@ const SecurityIcon = styled.div`
   font-size: 2.5rem;
   margin: 0 auto 2rem;
 `;
-
 const SecurityTitle = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: ${({ theme }) => theme.text};
 `;
-
 const SecurityDescription = styled.p`
   color: ${({ theme }) => theme.textLight};
   margin-bottom: 2rem;
   font-size: 1.1rem;
   line-height: 1.6;
 `;
-
 const SecurityFeatures = styled.div`
   display: flex;
   justify-content: center;
@@ -414,23 +380,19 @@ const SecurityFeatures = styled.div`
   gap: 2rem;
   margin-top: 3rem;
 `;
-
 const SecurityFeature = styled.div`
   text-align: center;
   max-width: 200px;
 `;
-
 const SecurityFeatureIcon = styled.div`
   color: ${({ theme }) => theme.primary};
   font-size: 2rem;
   margin-bottom: 1rem;
 `;
-
 const SecurityFeatureTitle = styled.h4`
   margin-bottom: 0.5rem;
   color: ${({ theme }) => theme.text};
 `;
-
 const SecurityFeatureDescription = styled.p`
   color: ${({ theme }) => theme.textLight};
   font-size: 0.9rem;
@@ -450,7 +412,6 @@ const SuccessMessage = styled.div`
     color: #28a745;
   }
 `;
-
 const ErrorMessage = styled.div`
   background-color: #f8d7da;
   color: #721c24;
@@ -468,6 +429,8 @@ const ErrorMessage = styled.div`
 /* Componente AreaClienti */
 const AreaClienti = () => {
   const navigate = useNavigate();
+  // Otteniamo funzioni dal contesto di autenticazione
+  const { login } = useAuth();
 
   // Stato per il toggle tra login e registrazione
   const [isRegister, setIsRegister] = useState(false);
@@ -490,87 +453,7 @@ const AreaClienti = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /* ------------------------------------------------------------------
-   * Sezione per la validazione del form (aggiunta/modificata)
-   * ------------------------------------------------------------------ */
-  const validateForm = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Password: min 8 caratteri, almeno una lettera e un numero
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
-    let errors = {};
-    let isValid = true;
-
-    // Se siamo in registrazione
-    if (isRegister) {
-      // Validazione del nome
-      if (!formState.name.trim()) {
-        errors.name = "Il nome è obbligatorio";
-        isValid = false;
-      }
-      // Validazione password complessa
-      if (!passwordRegex.test(formState.password)) {
-        errors.password =
-          "La password deve contenere almeno 8 caratteri, inclusi lettere e numeri";
-        isValid = false;
-      }
-      // Conferma password
-      if (formState.password !== formState.confirmPassword) {
-        errors.confirmPassword = "Le password non corrispondono";
-        isValid = false;
-      }
-    }
-
-    // Validazione email
-    if (!emailRegex.test(formState.email)) {
-      errors.email = "Inserisci un indirizzo email valido";
-      isValid = false;
-    }
-
-    return { isValid, errors };
-  };
-
-  // Funzione per l’invio del form di registrazione, con validazione
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-
-    const validation = validateForm();
-    if (!validation.isValid) {
-      setErrorMessage(Object.values(validation.errors)[0]);
-      return;
-    }
-
-    // Se la validazione è ok, prosegui come da logica esistente
-    if (
-      !formState.name ||
-      !formState.email ||
-      !formState.password ||
-      !formState.confirmPassword
-    ) {
-      setErrorMessage("Compila tutti i campi richiesti.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setErrorMessage("");
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setFormSubmitted(true);
-      setFormState({
-        name: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-      });
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setIsRegister(false);
-      }, 3000);
-    }, 1500);
-  };
-
-  // Resto del codice invariato...
+  // Funzioni di gestione
   const toggleView = () => {
     setIsRegister(!isRegister);
     setErrorMessage("");
@@ -607,6 +490,7 @@ const AreaClienti = () => {
     }, 1500);
   };
 
+  // MODIFICATO: Gestione del login semplificata
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (!formState.email || !formState.password) {
@@ -615,14 +499,57 @@ const AreaClienti = () => {
     }
     setIsSubmitting(true);
     setErrorMessage("");
-    setTimeout(() => {
-      localStorage.setItem("auth_token", "fake-jwt-token");
-      localStorage.setItem("user_name", "Mario Rossi");
-      navigate("/dashboard");
-    }, 1000);
+
+    // Utilizziamo la funzione login dal context di autenticazione
+    login(formState.email, formState.password)
+      .then((result) => {
+        if (result.success) {
+          // Reindirizza alla dashboard in caso di successo
+          navigate("/dashboard");
+        } else {
+          setErrorMessage(result.error || "Errore durante il login");
+        }
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
-  // Selettore del form da mostrare (login, register o recovery)
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !formState.name ||
+      !formState.email ||
+      !formState.password ||
+      !formState.confirmPassword
+    ) {
+      setErrorMessage("Compila tutti i campi richiesti.");
+      return;
+    }
+    if (formState.password !== formState.confirmPassword) {
+      setErrorMessage("Le password non corrispondono.");
+      return;
+    }
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setFormSubmitted(true);
+      setFormState({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      });
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setIsRegister(false);
+      }, 3000);
+    }, 1500);
+  };
+
+  // Render del form in base allo stato
   let formContent;
   if (isRecoveringPassword) {
     formContent = (
@@ -921,7 +848,8 @@ const AreaClienti = () => {
     >
       <SEO
         title="Area Clienti"
-        description="Accedi alla tua area riservata per gestire la tua fornitura, visualizzare le bollette e monitorare i tuoi consumi in tempo reale."
+        description="Accedi alla tua area riservata per gestire la tua fornitura, visualizzare le
+        bollette e monitorare i tuoi consumi in tempo reale."
         canonical="/area-clienti"
         keywords={[
           ...SEO_CONSTANTS.DEFAULT_KEYWORDS,
@@ -932,7 +860,6 @@ const AreaClienti = () => {
         ]}
         noindex={true}
       />
-
       {/* Hero Section */}
       <ErrorBoundary>
         <ParallaxHero
@@ -949,7 +876,6 @@ const AreaClienti = () => {
           </ScrollAnimation>
         </ParallaxHero>
       </ErrorBoundary>
-
       {/* Login / Register / Recovery Section */}
       <ErrorBoundary>
         <LoginSection>
@@ -960,19 +886,18 @@ const AreaClienti = () => {
                   {isRegister
                     ? "Registrati"
                     : isRecoveringPassword
-                      ? "Recupera Password"
-                      : "Accedi"}
+                    ? "Recupera Password"
+                    : "Accedi"}
                 </SectionTitle>
                 <SectionSubtitle style={{ margin: "2rem auto" }}>
                   {isRegister
                     ? "Crea un account per gestire le tue forniture e accedere a tutti i servizi esclusivi"
                     : isRecoveringPassword
-                      ? "Recupera l'accesso al tuo account in modo semplice e sicuro"
-                      : "Accedi alla tua area personale per gestire le tue forniture e scoprire tutti i vantaggi"}
+                    ? "Recupera l'accesso al tuo account in modo semplice e sicuro"
+                    : "Accedi alla tua area personale per gestire le tue forniture e scoprire tutti i vantaggi"}
                 </SectionSubtitle>
               </div>
             </ScrollAnimation>
-
             <ContactGrid style={{ maxWidth: "1100px", margin: "0 auto" }}>
               <LoginContainer>
                 <ErrorBoundary>
@@ -981,7 +906,6 @@ const AreaClienti = () => {
                   </LoginCard>
                 </ErrorBoundary>
               </LoginContainer>
-
               <FeaturesSection isRegister={isRegister || isRecoveringPassword}>
                 <ErrorBoundary>
                   <FeaturesCard elevation="medium" padding="2.5rem">
@@ -1063,7 +987,6 @@ const AreaClienti = () => {
           </PageContainer>
         </LoginSection>
       </ErrorBoundary>
-
       {/* Security Section */}
       <ErrorBoundary>
         <SecureSection>

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { handleApiError } from "../utils/errorHandler";
 
-// Impostazione dell'URL di base per le chiamate API
-const API_URL = "https://solida-energia-backend.amministrazio25.repl.co/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 // Creazione dell'istanza axios con configurazione di base
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -16,14 +15,13 @@ apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("auth_token");
     if (token) {
-      // Correzione: utilizza i backtick
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 // Aggiungiamo un interceptor per gestire gli errori di risposta
@@ -42,16 +40,17 @@ apiClient.interceptors.response.use(
     }
     // Propaghiamo l'errore per gestirlo nei componenti
     return Promise.reject(error);
-  },
+  }
 );
 
-// API calls per le offerte con gestione errori migliorata
+// API calls per le offerte
+// API calls con gestione degli errori migliorata
 export const getOfferteLuce = async () => {
   try {
     return await apiClient.get("/offerte/luce");
   } catch (error) {
     throw new Error(
-      handleApiError(error, "Impossibile recuperare le offerte luce."),
+      handleApiError(error, "Impossibile recuperare le offerte luce.")
     );
   }
 };
@@ -61,7 +60,7 @@ export const getOfferteGas = async () => {
     return await apiClient.get("/offerte/gas");
   } catch (error) {
     throw new Error(
-      handleApiError(error, "Impossibile recuperare le offerte gas."),
+      handleApiError(error, "Impossibile recuperare le offerte gas.")
     );
   }
 };
@@ -71,7 +70,7 @@ export const getOfferteBusiness = async () => {
     return await apiClient.get("/offerte/business");
   } catch (error) {
     throw new Error(
-      handleApiError(error, "Impossibile recuperare le offerte business."),
+      handleApiError(error, "Impossibile recuperare le offerte bussines.")
     );
   }
 };
@@ -106,6 +105,52 @@ export const getUserBills = () => {
 
 export const getBillDetail = (billId) => {
   return apiClient.get(`/user/bills/${billId}`);
+};
+
+// Aggiungi la funzione calculateSavings mancante
+export const calculateSavings = (billData, type) => {
+  // Get our competitive rates
+  const solidaRate = type === "electricity" ? 0.069 : 0.28;
+
+  // Calculate unit cost from the bill
+  const unitCost = billData.totalAmount / billData.consumption;
+
+  // Calculate savings percentage (capped at 30%)
+  const savingsPercentage = Math.min(
+    Math.round(((unitCost - solidaRate) / unitCost) * 100),
+    30
+  );
+
+  // Calculate absolute savings
+  const annualConsumption = billData.annualizedConsumption;
+  const annualCost = billData.annualizedCost;
+  const savingsAmount = Math.round((savingsPercentage / 100) * annualCost);
+
+  // Calculate CO2 reduction
+  const co2ReductionKg = Math.round(
+    type === "electricity"
+      ? annualConsumption * 0.35 * (savingsPercentage / 100) // 0.35 kg CO2 per kWh
+      : annualConsumption * 2.5 * (savingsPercentage / 100) // 2.5 kg CO2 per Smc
+  );
+
+  return {
+    currentProvider: billData.provider,
+    periodStart: billData.periodStart,
+    periodEnd: billData.periodEnd,
+    consumption: billData.consumption,
+    annualConsumption: billData.annualizedConsumption,
+    billAmount: billData.totalAmount,
+    annualCost: billData.annualizedCost,
+    savingsPercentage,
+    savingsAmount,
+    currentUnitCost: unitCost.toFixed(3),
+    potentialUnitCost: solidaRate.toFixed(3),
+    estimatedNewAnnualCost: annualCost - savingsAmount,
+    co2ReductionKg,
+    fixedCosts: billData.fixedCosts,
+    variableCosts: billData.variableCosts,
+    taxes: billData.taxes,
+  };
 };
 
 export default apiClient;

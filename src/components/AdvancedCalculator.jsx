@@ -17,6 +17,7 @@ import Button from "../components/common/Button.jsx";
 import Card from "../components/common/Card.jsx";
 import ScrollAnimation from "../components/common/ScrollAnimation.jsx";
 import FormInput from "../components/common/FormInput.jsx";
+import { calculateSavings } from "../services/api"; // Importa la funzione API
 
 // Esempio di loading spinner. Se ne hai già uno tuo, importalo e sostituisci qui
 const LoadingSpinner = styled.div`
@@ -369,7 +370,7 @@ const simulateBillDataExtraction = async (file, type) => {
       const periodDays = 30 + Math.floor(Math.random() * 30);
       const annualizationFactor = 365 / periodDays;
       const annualizedConsumption = Math.round(
-        consumption * annualizationFactor,
+        consumption * annualizationFactor
       );
       const annualizedCost = Math.round(totalAmount * annualizationFactor);
 
@@ -389,9 +390,10 @@ const simulateBillDataExtraction = async (file, type) => {
 };
 
 const AdvancedCalculator = ({ type = "electricity" }) => {
-  // Stato per i tab
+  // State per il tab attivo
   const [activeTab, setActiveTab] = useState("manual");
-  // Stato form manuale
+
+  // State per i dati del form
   const [calculatorData, setCalculatorData] = useState({
     consumo: "",
     importo: "",
@@ -401,47 +403,47 @@ const AdvancedCalculator = ({ type = "electricity" }) => {
     provider: "",
     potenza: type === "electricity" ? "" : "",
   });
-  // Upload file
+
+  // State per il file caricato
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragActive, setIsDragActive] = useState(false);
   const [fileError, setFileError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // **Novità**: stato per l’indicatore di caricamento del calcolo manuale
+  // State per i risultati del calcolo
+  const [calculationResult, setCalculationResult] = useState(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  // Risultati
-  const [calculationResult, setCalculationResult] = useState(null);
-
-  // handle input
+  // Gestione input per il calcolatore manuale
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (["consumo", "importo", "metri"].includes(name)) {
-      if (value === "" || !isNaN(parseFloat(value))) {
-        setCalculatorData({ ...calculatorData, [name]: value });
-      }
-      return;
-    }
-    setCalculatorData({ ...calculatorData, [name]: value });
+    setCalculatorData({
+      ...calculatorData,
+      [name]: value,
+    });
   };
 
-  // validazione
+  // Validazione prima di inviare il form
   const validateForm = () => {
     let errors = {};
     let isValid = true;
 
+    // Valida consumo
     if (!calculatorData.consumo || parseFloat(calculatorData.consumo) <= 0) {
       errors.consumo = "Inserisci un valore valido per il consumo";
       isValid = false;
     }
+
+    // Valida importo (prezzo unitario)
     if (!calculatorData.importo || parseFloat(calculatorData.importo) <= 0) {
-      errors.importo = "Inserisci un importo valido";
+      errors.importo = "Inserisci un valore valido per l'importo";
       isValid = false;
     }
+
+    // Valida metri quadri per gas
     if (
       type === "gas" &&
-      calculatorData.metri &&
-      parseFloat(calculatorData.metri) <= 0
+      (!calculatorData.metri || parseFloat(calculatorData.metri) <= 0)
     ) {
       errors.metri = "Inserisci un valore valido per i metri quadri";
       isValid = false;
@@ -514,18 +516,18 @@ const AdvancedCalculator = ({ type = "electricity" }) => {
         const unitCost = importo / consumo;
         let savingsPercentage = Math.min(
           Math.max(Math.round(((unitCost - solidaRate) / unitCost) * 100), 5),
-          30,
+          30
         );
         const annualConsumption =
           type === "electricity" ? consumo * 12 : consumo;
         const annualCost = unitCost * annualConsumption;
         const savingsAmount = Math.round(
-          (savingsPercentage / 100) * annualCost,
+          (savingsPercentage / 100) * annualCost
         );
         const co2ReductionKg = Math.round(
           type === "electricity"
             ? annualConsumption * 0.35 * (savingsPercentage / 100)
-            : annualConsumption * 2.5 * (savingsPercentage / 100),
+            : annualConsumption * 2.5 * (savingsPercentage / 100)
         );
 
         // Risultato
@@ -574,13 +576,13 @@ const AdvancedCalculator = ({ type = "electricity" }) => {
       ];
       if (!validTypes.includes(uploadedFile.type)) {
         throw new Error(
-          "Formato file non supportato. Carica un file PDF, JPG, PNG o XLSX",
+          "Formato file non supportato. Carica un file PDF, JPG, PNG o XLSX"
         );
       }
 
       const extractedData = await simulateBillDataExtraction(
         uploadedFile,
-        type,
+        type
       );
       const solidaRate = type === "electricity" ? 0.069 : 0.28;
       const {
@@ -592,15 +594,15 @@ const AdvancedCalculator = ({ type = "electricity" }) => {
       } = extractedData;
       const savingsPercentage = Math.min(
         Math.round(((unitCost - solidaRate) / unitCost) * 100),
-        30,
+        30
       );
       const savingsAmount = Math.round(
-        (savingsPercentage / 100) * annualizedCost,
+        (savingsPercentage / 100) * annualizedCost
       );
       const co2ReductionKg = Math.round(
         type === "electricity"
           ? annualizedConsumption * 0.35 * (savingsPercentage / 100)
-          : annualizedConsumption * 2.5 * (savingsPercentage / 100),
+          : annualizedConsumption * 2.5 * (savingsPercentage / 100)
       );
 
       const calculationResult = {

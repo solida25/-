@@ -1,30 +1,27 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
-import { useAuth } from "./contexts/AuthContext"; // Assumo che tu abbia un AuthContext
+import { useAuth } from "./contexts/AuthContext";
 
 // Componente ProtectedRoute per proteggere le rotte
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
-
   if (loading) {
     return <LoadingSpinner fullPage />;
   }
-
   if (!isAuthenticated) {
     return <Navigate to="/area-clienti" replace />;
   }
-
   return children;
 };
 
 // Caricamento lazy dei componenti/pagine principali con prefetch per le pagine più importanti
 const Home = lazy(() => import(/* webpackPrefetch: true */ "./pages/Home.jsx"));
-const OfferteLuce = lazy(
-  () => import(/* webpackPrefetch: true */ "./pages/OfferteLuce.jsx"),
+const OfferteLuce = lazy(() =>
+  import(/* webpackPrefetch: true */ "./pages/OfferteLuce.jsx")
 );
-const OfferteGas = lazy(
-  () => import(/* webpackPrefetch: true */ "./pages/OfferteGas.jsx"),
+const OfferteGas = lazy(() =>
+  import(/* webpackPrefetch: true */ "./pages/OfferteGas.jsx")
 );
 const OfferteBusiness = lazy(() => import("./pages/OfferteBusiness.jsx"));
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo.jsx"));
@@ -34,6 +31,10 @@ const Blog = lazy(() => import("./pages/Blog.jsx"));
 const AreaClienti = lazy(() => import("./pages/AreaClienti.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
+
+// Nuove pagine per Privacy e Termini
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.jsx"));
+const TerminiCondizioni = lazy(() => import("./pages/TerminiCondizioni.jsx"));
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,10 @@ const AppRoutes = () => {
         <Route path="/contatti" element={<Contatti />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/blog" element={<Blog />} />
+
+        {/* Nuove rotte per Privacy e Termini */}
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/termini" element={<TerminiCondizioni />} />
 
         {/* Rotte area clienti */}
         <Route path="/area-clienti" element={<AreaClienti />} />

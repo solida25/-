@@ -3,9 +3,9 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
+    "allowJs": true, // Cambiato da false a true
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true, // Cambiato a true per migliore compatibilità
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

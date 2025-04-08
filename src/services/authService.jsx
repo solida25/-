@@ -1,88 +1,56 @@
 // src/services/authService.jsx
-import apiClient from "./api";
-
 const authService = {
   // Login utente
   login: async (credentials) => {
-    try {
-      const response = await apiClient.post("/auth/login", credentials);
+    // Simuliamo un ritardo per dare l'illusione di una chiamata API
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-      // Salva i token e i dati utente
-      const { token, refreshToken, user } = response.data;
-      localStorage.setItem("auth_token", token);
-      localStorage.setItem("refresh_token", refreshToken);
-      localStorage.setItem("user_data", JSON.stringify(user));
+    // Creazione di un utente mock
+    const mockUser = {
+      id: "123456",
+      name: "Mario Rossi",
+      email: credentials.email || "mario.rossi@example.com",
+      phone: "333 123 4567",
+    };
 
-      return { success: true, user };
-    } catch (error) {
-      return {
-        success: false,
-        error: error.response?.data?.message || "Errore durante il login",
-      };
-    }
+    // Salva i dati mock nel localStorage
+    localStorage.setItem("auth_token", "fake-jwt-token");
+    localStorage.setItem("refresh_token", "fake-refresh-token");
+    localStorage.setItem("user_data", JSON.stringify(mockUser));
+
+    return { success: true, user: mockUser };
   },
 
   // Registrazione utente
   register: async (userData) => {
-    try {
-      const response = await apiClient.post("/auth/register", userData);
-      return {
-        success: true,
-        message:
-          response.data.message || "Registrazione completata con successo",
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error:
-          error.response?.data?.message || "Errore durante la registrazione",
-      };
-    }
+    // Simuliamo un ritardo
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Mock di una risposta positiva
+    return {
+      success: true,
+      message: "Registrazione completata con successo",
+    };
   },
 
   // Logout utente
   logout: async () => {
-    try {
-      // Informa il server per invalidare il token
-      await apiClient.post("/auth/logout");
-      return { success: true };
-    } catch (error) {
-      console.error("Error during logout:", error);
-      return { success: false, error: "Errore durante il logout" };
-    }
+    // Rimuovi semplicemente i dati dal localStorage
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user_data");
+
+    return { success: true };
   },
 
-  // Verifica validità token
+  // Verifica validità token (sempre valido in questo caso)
   verifyToken: async () => {
-    try {
-      await apiClient.get("/auth/verify-token");
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return true;
   },
 
-  // Refresh token
+  // Refresh token (sempre successo in questo caso)
   refreshToken: async () => {
-    try {
-      const refreshToken = localStorage.getItem("refresh_token");
-
-      if (!refreshToken) {
-        return false;
-      }
-
-      const response = await apiClient.post("/auth/refresh-token", {
-        refreshToken,
-      });
-
-      // Aggiorna il token
-      const { token } = response.data;
-      localStorage.setItem("auth_token", token);
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return true;
   },
 };
 

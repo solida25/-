@@ -1,4 +1,5 @@
-// src/data/mockDashboardData.js
+// src/data/mockDashboardData.jsx
+
 // Dati mock per i consumi di elettricità
 export const mockElectricityData = [
   { month: "Gen", consumption: 220, average: 250 },

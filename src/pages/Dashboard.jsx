@@ -1,30 +1,28 @@
-// src/pages/Dashboard.jsx
-
-import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Layout from "../components/common/Layout.jsx";
-import ScrollAnimation from "../components/common/ScrollAnimation.jsx";
-import ParallaxHero from "../components/common/ParallaxHero.jsx";
 import Button from "../components/common/Button.jsx";
-import SEO from "../components/seo/SEO";
-import StructuredData from "../components/seo/StructuredData";
+import Card from "../components/common/Card.jsx";
 import ErrorBoundary from "../components/error/ErrorBoundary";
-import { SEO_CONSTANTS } from "../utils/seoConstants";
+import SEO from "../components/seo/SEO";
+import { SEO_CONSTANTS } from "../utils/seoConstants"; // Aggiungi questa importazione
 
 import {
-  FaBars,
-  FaTachometerAlt,
+  FaUser,
+  FaSignOutAlt,
   FaHome,
+  FaTachometerAlt,
   FaChartLine,
   FaFileInvoiceDollar,
-  FaBell,
+  FaCreditCard,
   FaHeadset,
-  FaSignOutAlt,
-  FaUser,
-  FaUserEdit,
   FaCog,
+  FaBell,
+  FaUserEdit,
+  FaBars,
+  FaRegLightbulb,
+  FaGasPump,
 } from "react-icons/fa";
 
 // Import dei componenti della dashboard
@@ -43,7 +41,8 @@ import {
   mockBills,
   mockNotifications,
   mockUserData,
-} from "../data/mockDashboardData";
+} from "../data/mockDashboardData.jsx";
+import { useAuth } from "../contexts/AuthContext";
 
 // Styled Components
 const DashboardContainer = styled.div`
@@ -51,7 +50,6 @@ const DashboardContainer = styled.div`
   background-color: ${({ theme }) => theme.backgroundLight};
   min-height: calc(100vh - 70px);
 `;
-
 const Sidebar = styled.aside`
   width: 280px;
   background-color: white;
@@ -68,7 +66,6 @@ const Sidebar = styled.aside`
     transition: left 0.3s ease;
   }
 `;
-
 const SidebarToggle = styled.button`
   display: none;
   position: fixed;
@@ -92,7 +89,6 @@ const SidebarToggle = styled.button`
     justify-content: center;
   }
 `;
-
 const SidebarOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -106,81 +102,73 @@ const SidebarOverlay = styled.div`
     display: none;
   }
 `;
-
 const UserInfo = styled.div`
   padding: 0 1.5rem 1.5rem;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.backgroundLight};
   text-align: center;
 `;
-
 const UserAvatar = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: ${({ theme }) => `${theme.primary}20`};
-  color: ${({ theme }) => theme.primary};
-  margin: 0 auto 0.5rem;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.primary},
+    ${({ theme }) => theme.secondary}
+  );
+  color: white;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  margin: 0 auto 1rem;
 `;
-
-const UserName = styled.h4`
-  margin: 0;
-  margin-bottom: 0.3rem;
-  font-size: 1.1rem;
-  color: ${({ theme }) => theme.text};
+const UserName = styled.h3`
+  margin-bottom: 0.5rem;
 `;
-
 const UserEmail = styled.p`
-  margin: 0;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
   color: ${({ theme }) => theme.textLight};
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 `;
-
 const NavMenu = styled.ul`
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  flex: 1;
 `;
-
 const NavItem = styled.li`
   margin-bottom: 0.5rem;
 `;
-
-const NavLink = styled.div`
+const NavLink = styled.a`
   display: flex;
   align-items: center;
   padding: 0.8rem 1.5rem;
   color: ${({ theme, active }) => (active ? theme.primary : theme.text)};
-  background-color: ${({ active, theme }) =>
+  background-color: ${({ theme, active }) =>
     active ? `${theme.primary}10` : "transparent"};
+  transition: all 0.3s ease;
+  border-left: 3px solid
+    ${({ theme, active }) => (active ? theme.primary : "transparent")};
   cursor: pointer;
-
   &:hover {
     background-color: ${({ theme }) => `${theme.primary}10`};
     color: ${({ theme }) => theme.primary};
   }
 `;
-
 const NavIcon = styled.span`
   margin-right: 0.8rem;
   font-size: 1.2rem;
   width: 24px;
   text-align: center;
 `;
-
 const NavText = styled.span``;
-
 const MainContent = styled.main`
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
 `;
-
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -192,12 +180,10 @@ const PageHeader = styled.div`
     gap: 1rem;
   }
 `;
-
 const PageTitle = styled.h1`
   font-size: 2rem;
   color: ${({ theme }) => theme.text};
 `;
-
 const ActionButtons = styled.div`
   display: flex;
   gap: 1rem;
@@ -205,14 +191,14 @@ const ActionButtons = styled.div`
     flex-direction: column;
   }
 `;
-
 const DashboardSection = styled.section`
   margin-bottom: 2rem;
 `;
 
+// Dashboard Component
 const Dashboard = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   // Stato per la sezione attiva (dashboard, consumption, bills, notifications, ecc.)
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -221,53 +207,40 @@ const Dashboard = () => {
   // Stato per le notifiche
   const [notifications, setNotifications] = useState(mockNotifications);
 
-  // Verifica autenticazione (se non autenticato, reindirizza all'area clienti)
+  // MODIFICATO: Rimosso il controllo di autenticazione con reindirizzamento
+  // Non abbiamo più bisogno di questo useEffect
+  /*
   useEffect(() => {
     if (!localStorage.getItem("auth_token")) {
       navigate("/area-clienti");
     }
   }, [navigate]);
-
-  // Gestione della sezione attiva basata sul path (URL)
-  useEffect(() => {
-    const pathSection = location.pathname.split("/").pop();
-    if (pathSection && pathSection !== "dashboard") {
-      setActiveSection(pathSection);
-    } else {
-      setActiveSection("dashboard");
-    }
-  }, [location]);
-
-  // Cambio sezione + sincronizzazione con navigate
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
-    if (section !== "dashboard") {
-      navigate(`/${section}`);
-    } else {
-      navigate("/dashboard");
-    }
-  };
+  */
 
   // Funzione per il logout
   const handleLogout = () => {
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("user_name");
-    navigate("/area-clienti");
+    logout()
+      .then(() => {
+        navigate("/area-clienti");
+      })
+      .catch((error) => {
+        console.error("Errore durante il logout:", error);
+      });
   };
 
   // Funzione per segnare le notifiche come lette
   const handleMarkAsRead = (id) => {
     if (id === "all") {
       setNotifications((prev) =>
-        prev.map((notification) => ({ ...notification, isRead: true })),
+        prev.map((notification) => ({ ...notification, isRead: true }))
       );
     } else {
       setNotifications((prev) =>
         prev.map((notification) =>
           notification.id === id
             ? { ...notification, isRead: true }
-            : notification,
-        ),
+            : notification
+        )
       );
     }
   };
@@ -277,14 +250,19 @@ const Dashboard = () => {
     if (id === "all") {
       setNotifications([]);
     } else {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
+      setNotifications((prev) =>
+        prev.filter((notification) => notification.id !== id)
+      );
     }
   };
 
-  // Se l'utente non è autenticato, reindirizza
+  // MODIFICATO: Rimosso il controllo di autenticazione con reindirizzamento
+  // Non dobbiamo più verificare se l'utente è autenticato
+  /*
   if (!localStorage.getItem("auth_token")) {
     return <Navigate to="/area-clienti" />;
   }
+  */
 
   return (
     <Layout
@@ -308,12 +286,10 @@ const Dashboard = () => {
         <SidebarToggle onClick={() => setSidebarOpen(!sidebarOpen)}>
           <FaBars />
         </SidebarToggle>
-
         <SidebarOverlay
           isOpen={sidebarOpen}
           onClick={() => setSidebarOpen(false)}
         />
-
         <ErrorBoundary>
           <Sidebar isOpen={sidebarOpen}>
             <UserInfo>
@@ -328,7 +304,7 @@ const Dashboard = () => {
                 outlined
                 icon={<FaUserEdit />}
                 iconPosition="left"
-                onClick={() => handleSectionChange("profile")}
+                onClick={() => setActiveSection("profile")}
               >
                 Modifica Profilo
               </Button>
@@ -337,7 +313,7 @@ const Dashboard = () => {
               <NavItem>
                 <NavLink
                   active={activeSection === "dashboard" ? 1 : 0}
-                  onClick={() => handleSectionChange("dashboard")}
+                  onClick={() => setActiveSection("dashboard")}
                 >
                   <NavIcon>
                     <FaTachometerAlt />
@@ -348,7 +324,7 @@ const Dashboard = () => {
               <NavItem>
                 <NavLink
                   active={activeSection === "contracts" ? 1 : 0}
-                  onClick={() => handleSectionChange("contracts")}
+                  onClick={() => setActiveSection("contracts")}
                 >
                   <NavIcon>
                     <FaHome />
@@ -359,7 +335,7 @@ const Dashboard = () => {
               <NavItem>
                 <NavLink
                   active={activeSection === "consumption" ? 1 : 0}
-                  onClick={() => handleSectionChange("consumption")}
+                  onClick={() => setActiveSection("consumption")}
                 >
                   <NavIcon>
                     <FaChartLine />
@@ -370,7 +346,7 @@ const Dashboard = () => {
               <NavItem>
                 <NavLink
                   active={activeSection === "bills" ? 1 : 0}
-                  onClick={() => handleSectionChange("bills")}
+                  onClick={() => setActiveSection("bills")}
                 >
                   <NavIcon>
                     <FaFileInvoiceDollar />
@@ -380,8 +356,19 @@ const Dashboard = () => {
               </NavItem>
               <NavItem>
                 <NavLink
+                  active={activeSection === "payments" ? 1 : 0}
+                  onClick={() => setActiveSection("payments")}
+                >
+                  <NavIcon>
+                    <FaCreditCard />
+                  </NavIcon>
+                  <NavText>Pagamenti</NavText>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
                   active={activeSection === "notifications" ? 1 : 0}
-                  onClick={() => handleSectionChange("notifications")}
+                  onClick={() => setActiveSection("notifications")}
                 >
                   <NavIcon>
                     <FaBell />
@@ -391,8 +378,19 @@ const Dashboard = () => {
               </NavItem>
               <NavItem>
                 <NavLink
+                  active={activeSection === "support" ? 1 : 0}
+                  onClick={() => setActiveSection("support")}
+                >
+                  <NavIcon>
+                    <FaHeadset />
+                  </NavIcon>
+                  <NavText>Assistenza</NavText>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
                   active={activeSection === "profile" ? 1 : 0}
-                  onClick={() => handleSectionChange("profile")}
+                  onClick={() => setActiveSection("profile")}
                 >
                   <NavIcon>
                     <FaUser />
@@ -403,7 +401,7 @@ const Dashboard = () => {
               <NavItem>
                 <NavLink
                   active={activeSection === "settings" ? 1 : 0}
-                  onClick={() => handleSectionChange("settings")}
+                  onClick={() => setActiveSection("settings")}
                 >
                   <NavIcon>
                     <FaCog />
@@ -426,9 +424,7 @@ const Dashboard = () => {
             </div>
           </Sidebar>
         </ErrorBoundary>
-
         <MainContent>
-          {/* Sezione Dashboard */}
           {activeSection === "dashboard" && (
             <>
               <PageHeader>
@@ -439,22 +435,20 @@ const Dashboard = () => {
                     size="small"
                     icon={<FaBell />}
                     iconPosition="left"
-                    onClick={() => handleSectionChange("notifications")}
+                    onClick={() => setActiveSection("notifications")}
                   >
                     Notifiche
                   </Button>
-
                   <Button
                     size="small"
                     icon={<FaHeadset />}
                     iconPosition="left"
-                    onClick={() => handleSectionChange("support")}
+                    onClick={() => setActiveSection("support")}
                   >
                     Assistenza
                   </Button>
                 </ActionButtons>
               </PageHeader>
-
               {/* Riepilogo Dashboard */}
               <DashboardSection>
                 <ErrorBoundary>
@@ -465,8 +459,7 @@ const Dashboard = () => {
                   />
                 </ErrorBoundary>
               </DashboardSection>
-
-              {/* Notifiche (prime 3) */}
+              {/* Notifiche (mostra le prime 3) */}
               <DashboardSection>
                 <ErrorBoundary>
                   <NotificationsPanel
@@ -476,7 +469,6 @@ const Dashboard = () => {
                   />
                 </ErrorBoundary>
               </DashboardSection>
-
               {/* Grafico Consumi */}
               <DashboardSection>
                 <ErrorBoundary>
@@ -486,16 +478,194 @@ const Dashboard = () => {
                   />
                 </ErrorBoundary>
               </DashboardSection>
-
               {/* Sezione Contratti */}
               <DashboardSection>
                 <ErrorBoundary>
-                  {/* Esempio di card contratti e boll. recenti */}
-                  {/* ... (resto del codice contratti) */}
+                  <Card elevation="small" padding="1.5rem">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <h3 style={{ margin: 0 }}>Le tue forniture</h3>
+                      <Button
+                        size="small"
+                        variant="secondary"
+                        outlined
+                        onClick={() => setActiveSection("contracts")}
+                      >
+                        Gestisci forniture
+                      </Button>
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(300px, 1fr))",
+                        gap: "1.5rem",
+                      }}
+                    >
+                      {mockUserData.contracts.map((contract) => (
+                        <Card
+                          key={contract.id}
+                          elevation="small"
+                          padding="1.5rem"
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginBottom: "1rem",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                                backgroundColor: contract.type.includes("Luce")
+                                  ? "#E6394620"
+                                  : "#4069E120",
+                                color: contract.type.includes("Luce")
+                                  ? "#E63946"
+                                  : "#4069E1",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginRight: "1rem",
+                              }}
+                            >
+                              {contract.type.includes("Luce") ? (
+                                <FaRegLightbulb />
+                              ) : (
+                                <FaGasPump />
+                              )}
+                            </div>
+                            <div>
+                              <h3 style={{ margin: 0, marginBottom: "0.2rem" }}>
+                                {contract.type}
+                              </h3>
+                              <p
+                                style={{
+                                  margin: 0,
+                                  fontSize: "0.8rem",
+                                  color: "#666",
+                                }}
+                              >
+                                {contract.id}
+                              </p>
+                            </div>
+                          </div>
+                          <div style={{ marginBottom: "1rem" }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginBottom: "0.5rem",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontWeight: 500,
+                                  flex: 1,
+                                  color: "#666",
+                                }}
+                              >
+                                Indirizzo:
+                              </span>
+                              <span style={{ flex: 2 }}>
+                                {contract.address}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginBottom: "0.5rem",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontWeight: 500,
+                                  flex: 1,
+                                  color: "#666",
+                                }}
+                              >
+                                Data attivazione:
+                              </span>
+                              <span style={{ flex: 2 }}>
+                                {contract.activationDate}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginBottom: "0.5rem",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontWeight: 500,
+                                  flex: 1,
+                                  color: "#666",
+                                }}
+                              >
+                                {contract.type.includes("Luce")
+                                  ? "POD:"
+                                  : "PDR:"}
+                              </span>
+                              <span style={{ flex: 2 }}>
+                                {contract.type.includes("Luce")
+                                  ? contract.pod
+                                  : contract.pdr}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginBottom: "0.5rem",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontWeight: 500,
+                                  flex: 1,
+                                  color: "#666",
+                                }}
+                              >
+                                Stato:
+                              </span>
+                              <span
+                                style={{
+                                  flex: 2,
+                                  display: "inline-block",
+                                  padding: "0.25rem 0.75rem",
+                                  borderRadius: "1rem",
+                                  fontSize: "0.8rem",
+                                  backgroundColor: "#28A74520",
+                                  color: "#28A745",
+                                }}
+                              >
+                                {contract.status}
+                              </span>
+                            </div>
+                          </div>
+                          <Button
+                            fullWidth
+                            variant="secondary"
+                            outlined
+                            size="small"
+                          >
+                            Dettagli
+                          </Button>
+                        </Card>
+                      ))}
+                    </div>
+                  </Card>
                 </ErrorBoundary>
               </DashboardSection>
-
-              {/* Bollette Recenti (es. le prime 5) */}
+              {/* Bollette Recenti */}
               <DashboardSection>
                 <ErrorBoundary>
                   <BillsManager bills={mockBills.slice(0, 5)} />
@@ -504,7 +674,7 @@ const Dashboard = () => {
                       variant="secondary"
                       outlined
                       icon={<FaFileInvoiceDollar />}
-                      onClick={() => handleSectionChange("bills")}
+                      onClick={() => setActiveSection("bills")}
                     >
                       Tutte le bollette
                     </Button>
@@ -513,8 +683,6 @@ const Dashboard = () => {
               </DashboardSection>
             </>
           )}
-
-          {/* Sezione Consumi */}
           {activeSection === "consumption" && (
             <>
               <PageHeader>
@@ -525,7 +693,7 @@ const Dashboard = () => {
                     size="small"
                     icon={<FaTachometerAlt />}
                     iconPosition="left"
-                    onClick={() => handleSectionChange("dashboard")}
+                    onClick={() => setActiveSection("dashboard")}
                   >
                     Dashboard
                   </Button>
@@ -546,8 +714,6 @@ const Dashboard = () => {
               </DashboardSection>
             </>
           )}
-
-          {/* Sezione Bollette */}
           {activeSection === "bills" && (
             <>
               <PageHeader>
@@ -558,7 +724,7 @@ const Dashboard = () => {
                     size="small"
                     icon={<FaTachometerAlt />}
                     iconPosition="left"
-                    onClick={() => handleSectionChange("dashboard")}
+                    onClick={() => setActiveSection("dashboard")}
                   >
                     Dashboard
                   </Button>
@@ -571,8 +737,6 @@ const Dashboard = () => {
               </DashboardSection>
             </>
           )}
-
-          {/* Sezione Notifiche */}
           {activeSection === "notifications" && (
             <>
               <PageHeader>
@@ -583,7 +747,7 @@ const Dashboard = () => {
                     size="small"
                     icon={<FaTachometerAlt />}
                     iconPosition="left"
-                    onClick={() => handleSectionChange("dashboard")}
+                    onClick={() => setActiveSection("dashboard")}
                   >
                     Dashboard
                   </Button>
@@ -600,8 +764,7 @@ const Dashboard = () => {
               </DashboardSection>
             </>
           )}
-
-          {/* Sezioni “in sviluppo” (profilo, impostazioni, support, ecc.) */}
+          {/* Altre sezioni (ad es. support, profile, settings) */}
           {activeSection !== "dashboard" &&
             activeSection !== "consumption" &&
             activeSection !== "bills" &&
@@ -624,11 +787,11 @@ const Dashboard = () => {
                 >
                   Questa sezione è attualmente in fase di sviluppo. In una
                   implementazione completa, qui verrebbero visualizzate tutte le
-                  funzionalità relative a <strong>{activeSection}</strong>.
+                  funzionalità relative a {activeSection}.
                 </p>
                 <Button
                   variant="secondary"
-                  onClick={() => handleSectionChange("dashboard")}
+                  onClick={() => setActiveSection("dashboard")}
                   style={{ marginTop: "2rem" }}
                 >
                   Torna alla Dashboard
