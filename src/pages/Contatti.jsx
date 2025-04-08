@@ -1,245 +1,735 @@
-import React from 'react';
-import styled from 'styled-components';
-import Layout from '../components/common/Layout.jsx';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaHeadset } from 'react-icons/fa';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import Layout from "../components/common/Layout.jsx";
+import ScrollAnimation from "../components/common/ScrollAnimation.jsx";
+import ParallaxHero from "../components/common/ParallaxHero.jsx";
+import Button from "../components/common/Button.jsx";
+import Card from "../components/common/Card.jsx";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+  FaHeadset,
+  FaCheckCircle,
+  FaPaperPlane,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaArrowRight, // Aggiunta l'importazione mancante
+} from "react-icons/fa";
 
 const PageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
 `;
 
-const PageTitle = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  text-align: center;
+const HeroTitle = styled.h1`
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 2.5rem;
+  }
+`;
+
+const HeroDescription = styled.p`
+  font-size: 1.3rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 1.1rem;
+  }
+`;
+
+const ContactSection = styled.section`
+  padding: 5rem 0;
+  background-color: white;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: white;
+    transform: skewY(-2deg);
+    z-index: -1;
+  }
 `;
 
 const ContactGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 4rem;
+  gap: 3rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: 1fr;
   }
 `;
 
-const ContactInfo = styled.div`
-  background-color: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+const SectionTitle = styled.h2`
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: ${({ theme }) => theme.primary};
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      ${({ theme }) => theme.primary},
+      ${({ theme }) => theme.secondary}
+    );
+    border-radius: 2px;
+  }
 `;
 
-const ContactForm = styled.form`
-  background-color: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+const SectionSubtitle = styled.p`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.textLight};
+  margin-bottom: 3rem;
+  max-width: 600px;
 `;
 
-const InfoTitle = styled.h2`
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+const ContactInfoCard = styled(Card)`
+  height: 100%;
 `;
 
-const InfoItem = styled.div`
+const ContactItem = styled.div`
+  display: flex;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+  }
+`;
+
+const ContactIcon = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.primary},
+    ${({ theme }) => theme.secondary}
+  );
+  color: white;
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-right: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px ${({ theme }) => theme.primary}40;
 `;
 
-const InfoIcon = styled.span`
-  font-size: 1.5rem;
-  color: #0066cc;
-  margin-right: 1rem;
-  width: 30px;
-  text-align: center;
+const ContactInfo = styled.div`
+  flex: 1;
 `;
 
-const InfoText = styled.div``;
-
-const InfoLabel = styled.h3`
-  font-size: 1rem;
+const ContactLabel = styled.h4`
   margin-bottom: 0.3rem;
+  font-size: 1.1rem;
+  color: ${({ theme }) => theme.text};
 `;
 
-const InfoValue = styled.p`
-  color: #666666;
+const ContactValue = styled.p`
+  color: ${({ theme }) => theme.textLight};
+  line-height: 1.5;
 `;
 
-const FormTitle = styled.h2`
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+const SocialLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+`;
+
+const SocialLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: ${({ theme }) => theme.text};
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    background-color: ${({ theme, $network }) => {
+      switch ($network) {
+        case "facebook":
+          return "#3b5998";
+        case "twitter":
+          return "#1da1f2";
+        case "instagram":
+          return "#e1306c";
+        default:
+          return theme.primary;
+      }
+    }};
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const pulse = keyframes`
+  0% { box-shadow: 0 0 0 0 ${({ theme }) => theme.primary}70; }
+  70% { box-shadow: 0 0 0 10px ${({ theme }) => theme.primary}00; }
+  100% { box-shadow: 0 0 0 0 ${({ theme }) => theme.primary}00; }
+`;
+
+const FormContainer = styled(Card)`
+  position: relative;
+  overflow: visible;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      ${({ theme }) => theme.primary},
+      ${({ theme }) => theme.secondary}
+    );
+    z-index: -1;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      top: -10px;
+      right: -10px;
+      width: 50px;
+      height: 50px;
+    }
+  }
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 1.5rem;
+  position: relative;
 `;
 
-const Label = styled.label`
+const FormLabel = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
 `;
 
-const Input = styled.input`
+const InputContainer = styled.div`
+  position: relative;
+`;
+
+const FormInput = styled.input`
   width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  border: 1px solid
+    ${({ theme, $isFocused }) => ($isFocused ? theme.primary : "#ddd")};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  background-color: ${({ $isFocused }) => ($isFocused ? "#f9f9f9" : "white")};
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary}30;
+  }
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  border: 1px solid
+    ${({ theme, $isFocused }) => ($isFocused ? theme.primary : "#ddd")};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   min-height: 150px;
-`;
+  resize: vertical;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  background-color: ${({ $isFocused }) => ($isFocused ? "#f9f9f9" : "white")};
 
-const Button = styled.button`
-  background-color: #0066cc;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0055aa;
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary}30;
   }
 `;
 
-const MapSection = styled.div`
-  margin-bottom: 4rem;
+const InputIcon = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.primary};
+  opacity: ${({ $isFocused }) => ($isFocused ? 1 : 0.3)};
+  transition: opacity 0.3s ease;
 `;
 
-const MapTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
+const SuccessMessage = styled.div`
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 0.5rem;
+    color: #28a745;
+  }
 `;
 
-const MapPlaceholder = styled.div`
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  height: 400px;
+const MapSection = styled.section`
+  padding: 5rem 0;
+  background-color: ${({ theme }) => theme.backgroundLight};
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: white;
+    z-index: 1;
+  }
+
+  &::before {
+    top: -35px;
+    transform: skewY(2deg);
+  }
+
+  &::after {
+    bottom: -35px;
+    transform: skewY(-2deg);
+  }
+`;
+
+const MapContainer = styled.div`
+  position: relative;
+  z-index: 2;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.medium};
+  height: 500px;
+  background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: ${({ theme }) => theme.textLight};
   font-size: 1.2rem;
 `;
 
+const FAQSection = styled.section`
+  padding: 7rem 0 5rem;
+  background-color: white;
+  position: relative;
+  z-index: 1;
+`;
+
 const Contatti = () => {
+  // State per gestire i campi del form
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  // State per tracciare quale campo è attualmente attivo/focused
+  const [focusedField, setFocusedField] = useState(null);
+
+  // State per il messaggio di successo
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Handler per il cambio di valore nei campi
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // Handler per il focus sui campi
+  const handleFocus = (field) => {
+    setFocusedField(field);
+  };
+
+  // Handler per la perdita di focus sui campi
+  const handleBlur = () => {
+    setFocusedField(null);
+  };
+
+  // Handler per l'invio del form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Qui normalmente ci sarebbe una chiamata API per inviare i dati
+    console.log("Form data:", formState);
+
+    // Simuliamo il successo dell'invio
+    setTimeout(() => {
+      setFormSubmitted(true);
+      setFormState({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+
+      // Dopo 5 secondi, nascondi il messaggio di successo
+      setTimeout(() => {
+        setFormSubmitted(false);
+      }, 5000);
+    }, 800);
+  };
+
   return (
     <Layout
       title="Contatti"
       description="Contatta Solida-Energia per informazioni, assistenza o preventivi personalizzati."
     >
-      <PageContainer>
-        <PageTitle>Contattaci</PageTitle>
+      {/* Hero Section */}
+      <ParallaxHero
+        backgroundImage="https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+        height="50vh"
+      >
+        <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
+          <HeroTitle>Contattaci</HeroTitle>
+          <HeroDescription>
+            Siamo a tua disposizione per qualsiasi informazione o richiesta. Il
+            nostro team è pronto ad aiutarti.
+          </HeroDescription>
+        </ScrollAnimation>
+      </ParallaxHero>
 
-        <ContactGrid>
-          <ContactInfo>
-            <InfoTitle>Informazioni di Contatto</InfoTitle>
+      {/* Contact Info and Form Section */}
+      <ContactSection>
+        <PageContainer>
+          <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
+            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+              <SectionTitle>Come possiamo aiutarti?</SectionTitle>
+              <SectionSubtitle style={{ margin: "2rem auto" }}>
+                Hai domande sulle nostre offerte o hai bisogno di assistenza?
+                Siamo qui per te.
+              </SectionSubtitle>
+            </div>
+          </ScrollAnimation>
 
-            <InfoItem>
-              <InfoIcon>
-                <FaPhone />
-              </InfoIcon>
-              <InfoText>
-                <InfoLabel>Telefono</InfoLabel>
-                <InfoValue>800 123 456</InfoValue>
-              </InfoText>
-            </InfoItem>
+          <ContactGrid>
+            <ScrollAnimation
+              animationType={ScrollAnimation.types.SLIDE_RIGHT}
+              threshold={0.2}
+            >
+              <ContactInfoCard elevation="medium" padding="2rem">
+                <h3
+                  style={{
+                    fontSize: "1.5rem",
+                    marginBottom: "2rem",
+                    color: "#333",
+                  }}
+                >
+                  Informazioni di Contatto
+                </h3>
 
-            <InfoItem>
-              <InfoIcon>
-                <FaEnvelope />
-              </InfoIcon>
-              <InfoText>
-                <InfoLabel>Email</InfoLabel>
-                <InfoValue>info@solida-energia.it</InfoValue>
-              </InfoText>
-            </InfoItem>
+                <ContactItem>
+                  <ContactIcon>
+                    <FaPhone />
+                  </ContactIcon>
+                  <ContactInfo>
+                    <ContactLabel>Telefono</ContactLabel>
+                    <ContactValue>800 123 456</ContactValue>
+                  </ContactInfo>
+                </ContactItem>
 
-            <InfoItem>
-              <InfoIcon>
-                <FaMapMarkerAlt />
-              </InfoIcon>
-              <InfoText>
-                <InfoLabel>Indirizzo</InfoLabel>
-                <InfoValue>Via dell'Energia, 123 - 00100 Roma</InfoValue>
-              </InfoText>
-            </InfoItem>
+                <ContactItem>
+                  <ContactIcon>
+                    <FaEnvelope />
+                  </ContactIcon>
+                  <ContactInfo>
+                    <ContactLabel>Email</ContactLabel>
+                    <ContactValue>info@solida-energia.it</ContactValue>
+                  </ContactInfo>
+                </ContactItem>
 
-            <InfoItem>
-              <InfoIcon>
-                <FaClock />
-              </InfoIcon>
-              <InfoText>
-                <InfoLabel>Orari di Apertura</InfoLabel>
-                <InfoValue>Lun-Ven: 9:00-18:00</InfoValue>
-                <InfoValue>Sab: 9:00-12:00</InfoValue>
-              </InfoText>
-            </InfoItem>
+                <ContactItem>
+                  <ContactIcon>
+                    <FaMapMarkerAlt />
+                  </ContactIcon>
+                  <ContactInfo>
+                    <ContactLabel>Indirizzo</ContactLabel>
+                    <ContactValue>
+                      Via dell'Energia, 123 - 00100 Roma
+                    </ContactValue>
+                  </ContactInfo>
+                </ContactItem>
 
-            <InfoItem>
-              <InfoIcon>
-                <FaHeadset />
-              </InfoIcon>
-              <InfoText>
-                <InfoLabel>Servizio Clienti</InfoLabel>
-                <InfoValue>Lun-Ven: 8:00-20:00</InfoValue>
-                <InfoValue>Sab: 8:00-14:00</InfoValue>
-              </InfoText>
-            </InfoItem>
-          </ContactInfo>
+                <ContactItem>
+                  <ContactIcon>
+                    <FaClock />
+                  </ContactIcon>
+                  <ContactInfo>
+                    <ContactLabel>Orari di Apertura</ContactLabel>
+                    <ContactValue>Lun-Ven: 9:00-18:00</ContactValue>
+                    <ContactValue>Sab: 9:00-12:00</ContactValue>
+                  </ContactInfo>
+                </ContactItem>
 
-          <ContactForm>
-            <FormTitle>Invia un Messaggio</FormTitle>
+                <ContactItem>
+                  <ContactIcon>
+                    <FaHeadset />
+                  </ContactIcon>
+                  <ContactInfo>
+                    <ContactLabel>Servizio Clienti</ContactLabel>
+                    <ContactValue>Lun-Ven: 8:00-20:00</ContactValue>
+                    <ContactValue>Sab: 8:00-14:00</ContactValue>
+                  </ContactInfo>
+                </ContactItem>
 
-            <FormGroup>
-              <Label htmlFor="name">Nome e Cognome</Label>
-              <Input type="text" id="name" placeholder="Inserisci il tuo nome e cognome" />
-            </FormGroup>
+                <SocialLinks>
+                  <SocialLink
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    $network="facebook"
+                  >
+                    <FaFacebook />
+                  </SocialLink>
+                  <SocialLink
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    $network="twitter"
+                  >
+                    <FaTwitter />
+                  </SocialLink>
+                  <SocialLink
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    $network="instagram"
+                  >
+                    <FaInstagram />
+                  </SocialLink>
+                </SocialLinks>
+              </ContactInfoCard>
+            </ScrollAnimation>
 
-            <FormGroup>
-              <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" placeholder="Inserisci la tua email" />
-            </FormGroup>
+            <ScrollAnimation
+              animationType={ScrollAnimation.types.SLIDE_LEFT}
+              threshold={0.2}
+              delay="0.2s"
+            >
+              <FormContainer elevation="medium" padding="2rem">
+                <h3
+                  style={{
+                    fontSize: "1.5rem",
+                    marginBottom: "2rem",
+                    color: "#333",
+                  }}
+                >
+                  Invia un Messaggio
+                </h3>
 
-            <FormGroup>
-              <Label htmlFor="phone">Telefono</Label>
-              <Input type="tel" id="phone" placeholder="Inserisci il tuo numero di telefono" />
-            </FormGroup>
+                {formSubmitted && (
+                  <SuccessMessage>
+                    <FaCheckCircle /> Il tuo messaggio è stato inviato con
+                    successo. Ti risponderemo al più presto.
+                  </SuccessMessage>
+                )}
 
-            <FormGroup>
-              <Label htmlFor="subject">Oggetto</Label>
-              <Input type="text" id="subject" placeholder="Inserisci l'oggetto del messaggio" />
-            </FormGroup>
+                <form onSubmit={handleSubmit}>
+                  <FormGroup>
+                    <FormLabel htmlFor="name">Nome e Cognome</FormLabel>
+                    <InputContainer>
+                      <FormInput
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formState.name}
+                        onChange={handleInputChange}
+                        onFocus={() => handleFocus("name")}
+                        onBlur={handleBlur}
+                        placeholder="Inserisci il tuo nome e cognome"
+                        required
+                        $isFocused={focusedField === "name"}
+                      />
+                    </InputContainer>
+                  </FormGroup>
 
-            <FormGroup>
-              <Label htmlFor="message">Messaggio</Label>
-              <TextArea id="message" placeholder="Scrivi il tuo messaggio..." />
-            </FormGroup>
+                  <FormGroup>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <InputContainer>
+                      <FormInput
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formState.email}
+                        onChange={handleInputChange}
+                        onFocus={() => handleFocus("email")}
+                        onBlur={handleBlur}
+                        placeholder="Inserisci la tua email"
+                        required
+                        $isFocused={focusedField === "email"}
+                      />
+                      <InputIcon $isFocused={focusedField === "email"}>
+                        <FaEnvelope />
+                      </InputIcon>
+                    </InputContainer>
+                  </FormGroup>
 
-            <FormGroup>
-              <Button type="submit">Invia</Button>
-            </FormGroup>
-          </ContactForm>
-        </ContactGrid>
+                  <FormGroup>
+                    <FormLabel htmlFor="phone">Telefono</FormLabel>
+                    <InputContainer>
+                      <FormInput
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formState.phone}
+                        onChange={handleInputChange}
+                        onFocus={() => handleFocus("phone")}
+                        onBlur={handleBlur}
+                        placeholder="Inserisci il tuo numero di telefono"
+                        $isFocused={focusedField === "phone"}
+                      />
+                      <InputIcon $isFocused={focusedField === "phone"}>
+                        <FaPhone />
+                      </InputIcon>
+                    </InputContainer>
+                  </FormGroup>
 
-        <MapSection>
-          <MapTitle>Dove Siamo</MapTitle>
-          <MapPlaceholder>Mappa verrà caricata qui</MapPlaceholder>
-        </MapSection>
-      </PageContainer>
+                  <FormGroup>
+                    <FormLabel htmlFor="subject">Oggetto</FormLabel>
+                    <InputContainer>
+                      <FormInput
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        value={formState.subject}
+                        onChange={handleInputChange}
+                        onFocus={() => handleFocus("subject")}
+                        onBlur={handleBlur}
+                        placeholder="Inserisci l'oggetto del messaggio"
+                        required
+                        $isFocused={focusedField === "subject"}
+                      />
+                    </InputContainer>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <FormLabel htmlFor="message">Messaggio</FormLabel>
+                    <TextArea
+                      id="message"
+                      name="message"
+                      value={formState.message}
+                      onChange={handleInputChange}
+                      onFocus={() => handleFocus("message")}
+                      onBlur={handleBlur}
+                      placeholder="Scrivi il tuo messaggio..."
+                      required
+                      $isFocused={focusedField === "message"}
+                    />
+                  </FormGroup>
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    size="large"
+                    icon={<FaPaperPlane />}
+                  >
+                    Invia Messaggio
+                  </Button>
+                </form>
+              </FormContainer>
+            </ScrollAnimation>
+          </ContactGrid>
+        </PageContainer>
+      </ContactSection>
+
+      {/* Map Section */}
+      <MapSection>
+        <PageContainer>
+          <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
+            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+              <SectionTitle>Dove Siamo</SectionTitle>
+              <SectionSubtitle style={{ margin: "2rem auto" }}>
+                Vieni a trovarci nella nostra sede centrale
+              </SectionSubtitle>
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation
+            animationType={ScrollAnimation.types.FADE_IN}
+            threshold={0.2}
+          >
+            <MapContainer>
+              {/* 
+                Qui normalmente andrebbe un componente di mappa come Google Maps o Leaflet.
+                Per semplicità, mostriamo solo un placeholder
+              */}
+              <div>Mappa di Google qui</div>
+            </MapContainer>
+          </ScrollAnimation>
+        </PageContainer>
+      </MapSection>
+
+      {/* FAQ Quick Access Section */}
+      <FAQSection>
+        <PageContainer>
+          <ScrollAnimation animationType={ScrollAnimation.types.FADE_IN}>
+            <div
+              style={{
+                textAlign: "center",
+                maxWidth: "800px",
+                margin: "0 auto",
+              }}
+            >
+              <SectionTitle>Domande Frequenti</SectionTitle>
+              <SectionSubtitle style={{ margin: "2rem auto" }}>
+                Hai altre domande? Consulta la nostra sezione FAQ o contattaci
+                direttamente.
+              </SectionSubtitle>
+              <Button
+                to="/faq"
+                size="large"
+                variant="secondary"
+                rounded
+                icon={<FaArrowRight />}
+              >
+                Vai alle FAQ
+              </Button>
+            </div>
+          </ScrollAnimation>
+        </PageContainer>
+      </FAQSection>
     </Layout>
   );
 };
